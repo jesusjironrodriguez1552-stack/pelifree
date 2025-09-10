@@ -183,6 +183,23 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
+        .format-info {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .movie-image-container:hover .format-info {
+            opacity: 1;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -242,10 +259,13 @@
                         <div>🎬</div>
                         <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
                     </div>
-                    <img data-src="https://pixeldrain.com/api/file/BBQtbbrW" 
+                    <img data-src-webp="https://pixeldrain.com/api/file/BBQtbbrW" 
+                         data-src-jpg="https://pixeldrain.com/api/file/BBQtbbrW"
+                         data-src-avif="https://pixeldrain.com/api/file/BBQtbbrW"
                          alt="Poster It Eso" 
                          class="movie-image"
                          style="display: none;">
+                    <div class="format-info"></div>
                 </div>
                 <h2 class="movie-title">It Eso</h2>
                 <div class="movie-info">
@@ -270,10 +290,13 @@
                         <div>🎬</div>
                         <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
                     </div>
-                    <img data-src="https://pixeldrain.com/u/83BfbgBo" 
+                    <img data-src-webp="https://pixeldrain.com/u/83BfbgBo" 
+                         data-src-jpg="https://pixeldrain.com/u/83BfbgBo"
+                         data-src-avif="https://pixeldrain.com/u/83BfbgBo"
                          alt="Poster La hora de la desaparición" 
                          class="movie-image"
                          style="display: none;">
+                    <div class="format-info"></div>
                 </div>
                 <h2 class="movie-title">La hora de la desaparición</h2>
                 <div class="movie-info">
@@ -365,63 +388,163 @@
     </div>
 
     <script>
-        // Sistema de carga de imágenes con fallback
-        function loadImage(img, placeholder, spinner) {
-            const src = img.getAttribute('data-src');
-            if (!src) return;
+        // Sistema avanzado de carga de imágenes con múltiples formatos y fallback
+        function loadImageWithFallback(img, placeholder, spinner) {
+            // Detectar soporte de formatos
+            const supportsWebP = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 1;
+                return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+            };
+
+            const supportsAVIF = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 1;
+                return canvas.toDataURL('image/avif').indexOf('data:image/avif') === 0;
+            };
+
+            // Obtener URLs de diferentes formatos
+            const webpSrc = img.getAttribute('data-src-webp');
+            const jpgSrc = img.getAttribute('data-src-jpg');
+            const avifSrc = img.getAttribute('data-src-avif');
             
-            // Crear una nueva imagen para probar la carga
+            // Determinar el orden de prioridad basado en el soporte del navegador
+            let sources = [];
+            
+            // AVIF tiene la mejor compresión, pero menos soporte
+            if (avifSrc && supportsAVIF()) {
+                sources.push({ url: avifSrc, format: 'AVIF' });
+            }
+            
+            // WebP tiene buen soporte y compresión
+            if (webpSrc && supportsWebP()) {
+                sources.push({ url: webpSrc, format: 'WebP' });
+            }
+            
+            // JPG es el fallback universal
+            if (jpgSrc) {
+                sources.push({ url: jpgSrc, format: 'JPG' });
+            }
+            
+            // Si no hay fuentes, mostrar error
+            if (sources.length === 0) {
+                showError(placeholder, spinner, 'No hay fuentes de imagen disponibles');
+                return;
+            }
+            
+            // Intentar cargar imágenes en orden de prioridad
+            tryLoadImage(sources, 0, img, placeholder, spinner);
+        }
+        
+        function tryLoadImage(sources, index, img, placeholder, spinner) {
+            if (index >= sources.length) {
+                showError(placeholder, spinner, 'Todas las fuentes fallaron');
+                return;
+            }
+            
+            const source = sources[index];
             const testImg = new Image();
             
+            // Configurar headers para mejor compatibilidad
+            testImg.crossOrigin = 'anonymous';
+            
             testImg.onload = function() {
-                // La imagen se cargó correctamente
-                img.src = src;
+                // Éxito: mostrar la imagen
+                img.src = source.url;
                 img.style.display = 'block';
+                
                 if (placeholder) placeholder.classList.add('hidden');
                 if (spinner) spinner.style.display = 'none';
+                
+                // Mostrar información del formato cargado
+                const formatInfo = img.parentElement.querySelector('.format-info');
+                if (formatInfo) {
+                    formatInfo.textContent = source.format;
+                }
+                
+                console.log(`✅ Imagen cargada exitosamente: ${source.format}`);
             };
             
             testImg.onerror = function() {
-                // Error al cargar la imagen, mostrar placeholder con mensaje de error
-                if (spinner) spinner.style.display = 'none';
-                if (placeholder) {
-                    placeholder.innerHTML = `
-                        <div style="font-size: 24px;">🖼️</div>
-                        <div style="font-size: 12px; margin-top: 10px; text-align: center;">
-                            Error al cargar imagen<br>
-                            <span style="font-size: 10px; color: #888;">
-                                Formato no compatible o URL inválida
-                            </span>
-                        </div>
-                    `;
-                }
+                console.warn(`❌ Error cargando ${source.format}, intentando siguiente formato...`);
+                // Error: intentar con la siguiente fuente
+                setTimeout(() => {
+                    tryLoadImage(sources, index + 1, img, placeholder, spinner);
+                }, 100); // Pequeño delay para evitar spam de requests
             };
             
-            // Iniciar la carga de prueba
-            testImg.src = src;
+            // Configurar timeout para evitar esperas infinitas
+            setTimeout(() => {
+                if (!testImg.complete) {
+                    console.warn(`⏰ Timeout cargando ${source.format}, intentando siguiente formato...`);
+                    tryLoadImage(sources, index + 1, img, placeholder, spinner);
+                }
+            }, 5000); // 5 segundos de timeout
+            
+            // Iniciar la carga
+            testImg.src = source.url;
+        }
+        
+        function showError(placeholder, spinner, message) {
+            if (spinner) spinner.style.display = 'none';
+            if (placeholder) {
+                placeholder.innerHTML = `
+                    <div style="font-size: 24px;">🖼️</div>
+                    <div style="font-size: 12px; margin-top: 10px; text-align: center; color: #ff6b6b;">
+                        ${message}<br>
+                        <span style="font-size: 10px; color: #888; margin-top: 5px; display: block;">
+                            Verifica las URLs de las imágenes
+                        </span>
+                    </div>
+                `;
+            }
+            console.error(`🚫 Error final: ${message}`);
         }
         
         // Cargar todas las imágenes cuando la página esté lista
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎬 Iniciando sistema de carga de imágenes...');
+            
             const movieItems = document.querySelectorAll('.movie-item');
             
-            movieItems.forEach(item => {
+            movieItems.forEach((item, index) => {
                 const img = item.querySelector('.movie-image');
                 const placeholder = item.querySelector('.image-placeholder');
                 const spinner = item.querySelector('.loading-spinner');
                 
-                if (img && img.getAttribute('data-src')) {
-                    loadImage(img, placeholder, spinner);
+                if (img && (img.getAttribute('data-src-webp') || img.getAttribute('data-src-jpg') || img.getAttribute('data-src-avif'))) {
+                    console.log(`📋 Procesando imagen ${index + 1}...`);
+                    loadImageWithFallback(img, placeholder, spinner);
                 } else {
                     // No hay imagen para cargar, ocultar spinner
                     if (spinner) spinner.style.display = 'none';
+                    console.log(`ℹ️ No hay fuentes de imagen para el item ${index + 1}`);
                 }
             });
         });
 
-        // Función para agregar nueva película (útil para desarrollo)
-        function addMovie(title, year, genre, synopsis, imageUrl, watchUrl) {
+        // Función mejorada para agregar nueva película con soporte para múltiples formatos
+        function addMovie(title, year, genre, synopsis, imageUrls, watchUrl) {
             const moviesGrid = document.querySelector('.movies-grid');
+            
+            // imageUrls puede ser un string (una sola URL) o un objeto con múltiples formatos
+            let imageSrcAttrs = '';
+            if (typeof imageUrls === 'string') {
+                // Solo una URL, asumir que es compatible con todos los formatos
+                imageSrcAttrs = `
+                    data-src-webp="${imageUrls}" 
+                    data-src-jpg="${imageUrls}"
+                    data-src-avif="${imageUrls}"
+                `;
+            } else if (typeof imageUrls === 'object') {
+                // Múltiples URLs para diferentes formatos
+                imageSrcAttrs = `
+                    ${imageUrls.webp ? `data-src-webp="${imageUrls.webp}"` : ''}
+                    ${imageUrls.jpg ? `data-src-jpg="${imageUrls.jpg}"` : ''}
+                    ${imageUrls.avif ? `data-src-avif="${imageUrls.avif}"` : ''}
+                `;
+            }
+            
             const movieHTML = `
                 <div class="movie-item">
                     <div class="movie-image-container">
@@ -430,10 +553,11 @@
                             <div>🎬</div>
                             <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
                         </div>
-                        <img data-src="${imageUrl}" 
+                        <img ${imageSrcAttrs}
                              alt="Poster ${title}" 
                              class="movie-image"
                              style="display: none;">
+                        <div class="format-info"></div>
                     </div>
                     <h2 class="movie-title">${title}</h2>
                     <div class="movie-info">
@@ -459,13 +583,20 @@
             const placeholder = newItem.querySelector('.image-placeholder');
             const spinner = newItem.querySelector('.loading-spinner');
             
-            if (img && img.getAttribute('data-src')) {
-                loadImage(img, placeholder, spinner);
-            }
+            loadImageWithFallback(img, placeholder, spinner);
         }
 
-        // Ejemplo de uso para agregar película dinámicamente:
-        // addMovie("Nueva Película", "2024", "Acción", "Sinopsis aquí...", "URL_imagen", "URL_pelicula");
+        // Ejemplos de uso:
+        
+        // Con una sola URL (funciona para todos los formatos):
+        // addMovie("Película Ejemplo", "2024", "Acción", "Sinopsis...", "https://ejemplo.com/imagen", "https://ejemplo.com/pelicula");
+        
+        // Con múltiples formatos específicos:
+        // addMovie("Película Ejemplo 2", "2024", "Drama", "Sinopsis...", {
+        //     webp: "https://ejemplo.com/imagen.webp",
+        //     jpg: "https://ejemplo.com/imagen.jpg",
+        //     avif: "https://ejemplo.com/imagen.avif"
+        // }, "https://ejemplo.com/pelicula");
     </script>
 </body>
 </html>
