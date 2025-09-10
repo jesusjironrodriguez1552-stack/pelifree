@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            font-size: 32px;
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .movie-item {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #444;
+        }
+        
+        .movie-video {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .movie-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .movie-title {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .movie-synopsis {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.5;
+            text-align: justify;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .movie-video {
+                height: 200px;
+            }
+            
+            .movie-item {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .movie-video {
+                height: 180px;
+            }
+            
+            .movie-synopsis {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Catálogo de Películas</h1>
+        
+        <div class="movies-grid">
+            
+            <!-- PELÍCULA 1 -->
+            <div class="movie-item">
+                <iframe src="https://pixeldrain.com/u/Q8KRdN3t?embed" 
+                        class="movie-video" 
+                        allowfullscreen>
+                </iframe>
+                <img src="https://via.placeholder.com/400x300/333333/ffffff?text=Poster+Pelicula+1" 
+                     alt="Poster película 1" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de la Película 1</h2>
+                <div class="movie-synopsis">
+                    Esta es la sinopsis de la primera película. Aquí puedes describir la trama, los personajes principales, el género y cualquier información relevante que quieras compartir sobre esta película.
+                </div>
+            </div>
+            
+            <!-- PELÍCULA 2 -->
+            <div class="movie-item">
+                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL2?embed" 
+                        class="movie-video" 
+                        allowfullscreen>
+                </iframe>
+                <img src="https://via.placeholder.com/400x300/444444/ffffff?text=Poster+Pelicula+2" 
+                     alt="Poster película 2" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de la Película 2</h2>
+                <div class="movie-synopsis">
+                    Sinopsis de la segunda película. Describe aquí todo lo que consideres importante sobre esta película para que los visitantes sepan de qué se trata antes de verla.
+                </div>
+            </div>
+            
+            <!-- PELÍCULA 3 -->
+            <div class="movie-item">
+                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL3?embed" 
+                        class="movie-video" 
+                        allowfullscreen>
+                </iframe>
+                <img src="https://via.placeholder.com/400x300/555555/ffffff?text=Poster+Pelicula+3" 
+                     alt="Poster película 3" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de la Película 3</h2>
+                <div class="movie-synopsis">
+                    Descripción de la tercera película. Puedes agregar información sobre el director, año de estreno, género, o cualquier dato interesante que quieras compartir.
+                </div>
+            </div>
+            
+            <!-- PELÍCULA 4 -->
+            <div class="movie-item">
+                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL4?embed" 
+                        class="movie-video" 
+                        allowfullscreen>
+                </iframe>
+                <img src="https://via.placeholder.com/400x300/666666/ffffff?text=Poster+Pelicula+4" 
+                     alt="Poster película 4" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de la Película 4</h2>
+                <div class="movie-synopsis">
+                    Sinopsis de la cuarta película. Continúa agregando más bloques como este para incluir todas las películas que quieras en tu catálogo.
+                </div>
+            </div>
+            
+            <!-- AGREGA MAS PELÍCULAS COPIANDO ESTE BLOQUE -->
+            <!--
+            <div class="movie-item">
+                <iframe src="TU_URL_AQUI" 
+                        class="movie-video" 
+                        allowfullscreen>
+                </iframe>
+                <img src="URL_DE_TU_IMAGEN" 
+                     alt="Poster película" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de tu Película</h2>
+                <div class="movie-synopsis">
+                    Sinopsis de tu película...
+                </div>
+            </div>
+            -->
+            
+        </div>
+    </div>
+</body>
+</html>
