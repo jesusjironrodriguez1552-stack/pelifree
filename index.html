@@ -41,21 +41,26 @@
             border-radius: 10px;
             padding: 20px;
             border: 1px solid #444;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .movie-video {
-            width: 100%;
-            height: 250px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+        .movie-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
         
         .movie-image {
             width: 100%;
-            height: 200px;
+            height: 300px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 15px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .movie-image:hover {
+            opacity: 0.8;
         }
         
         .movie-title {
@@ -72,6 +77,59 @@
             line-height: 1.5;
             text-align: justify;
             font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .movie-year {
+            background-color: #444;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        
+        .movie-genre {
+            background-color: #555;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #fff;
+        }
+        
+        .watch-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .watch-button:hover {
+            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .play-icon {
+            margin-right: 8px;
+            font-size: 18px;
         }
         
         @media (max-width: 768px) {
@@ -84,8 +142,8 @@
                 gap: 20px;
             }
             
-            .movie-video {
-                height: 200px;
+            .movie-image {
+                height: 250px;
             }
             
             .movie-item {
@@ -96,100 +154,156 @@
                 font-size: 24px;
                 margin-bottom: 30px;
             }
+            
+            .movie-info {
+                justify-content: center;
+            }
         }
         
         @media (max-width: 480px) {
-            .movie-video {
-                height: 180px;
+            .movie-image {
+                height: 200px;
             }
             
             .movie-synopsis {
                 padding: 10px;
                 font-size: 13px;
             }
+            
+            .watch-button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Catálogo de Películas</h1>
+        <h1>🎬 Catálogo de Películas</h1>
         
         <div class="movies-grid">
             
             <!-- PELÍCULA 1 -->
             <div class="movie-item">
-                <iframe src="https://pixeldrain.com/u/Q8KRdN3t?embed" 
-                        class="movie-video" 
-                        allowfullscreen>
-                </iframe>
-                <img src="https://via.placeholder.com/400x300/333333/ffffff?text=Poster+Pelicula+1" 
+                <img src="https://via.placeholder.com/400x450/1a1a1a/ffffff?text=🎬+Película+1" 
                      alt="Poster película 1" 
                      class="movie-image">
                 <h2 class="movie-title">Título de la Película 1</h2>
-                <div class="movie-synopsis">
-                    Esta es la sinopsis de la primera película. Aquí puedes describir la trama, los personajes principales, el género y cualquier información relevante que quieras compartir sobre esta película.
+                <div class="movie-info">
+                    <span class="movie-year">2024</span>
+                    <span class="movie-genre">Acción</span>
                 </div>
+                <div class="movie-synopsis">
+                    Esta es la sinopsis de la primera película. Aquí puedes describir la trama, los personajes principales, el género y cualquier información relevante que quieras compartir sobre esta película. Una historia emocionante que te mantendrá al borde de tu asiento.
+                </div>
+                <a href="https://pixeldrain.com/u/Q8KRdN3t" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
             </div>
             
             <!-- PELÍCULA 2 -->
             <div class="movie-item">
-                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL2?embed" 
-                        class="movie-video" 
-                        allowfullscreen>
-                </iframe>
-                <img src="https://via.placeholder.com/400x300/444444/ffffff?text=Poster+Pelicula+2" 
+                <img src="https://pixeldrain.com/u/SVoZyfkC" 
                      alt="Poster película 2" 
                      class="movie-image">
-                <h2 class="movie-title">Título de la Película 2</h2>
-                <div class="movie-synopsis">
-                    Sinopsis de la segunda película. Describe aquí todo lo que consideres importante sobre esta película para que los visitantes sepan de qué se trata antes de verla.
+                <h2 class="movie-title">La hora de la desaparición</h2>
+                <div class="movie-info">
+                    <span class="movie-year">2023</span>
+                    <span class="movie-genre">Drama</span>
                 </div>
+                <div class="movie-synopsis">
+                    Cuando todos los niños de una secundaria, menos uno, desaparecen misteriosamente la misma noche y exactamente a la misma hora, toda la comunidad de un pequeño pueblo se pregunta quién (o qué) es responsable de su desaparición.
+                    Genero: Terror, Misterio
+                   Actores: Julia Garner, Josh Brolin, Alden Ehrenreich, Austin Abrams, Benedict Wong, Amy Madigan, Cary Christopher, Toby Huss, Whitmer Thomas, Callie Schuttera, June Diane Raphael, Scarlett Sher, Jason Turner, Anny Jules, Ali Burch
+                </div>
+                <a href="https://pixeldrain.com/u/AiTPN7Sm" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
             </div>
             
             <!-- PELÍCULA 3 -->
             <div class="movie-item">
-                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL3?embed" 
-                        class="movie-video" 
-                        allowfullscreen>
-                </iframe>
-                <img src="https://via.placeholder.com/400x300/555555/ffffff?text=Poster+Pelicula+3" 
+                <img src="https://via.placeholder.com/400x450/3d3d3d/ffffff?text=🚀+Película+3" 
                      alt="Poster película 3" 
                      class="movie-image">
                 <h2 class="movie-title">Título de la Película 3</h2>
-                <div class="movie-synopsis">
-                    Descripción de la tercera película. Puedes agregar información sobre el director, año de estreno, género, o cualquier dato interesante que quieras compartir.
+                <div class="movie-info">
+                    <span class="movie-year">2024</span>
+                    <span class="movie-genre">Ciencia Ficción</span>
                 </div>
+                <div class="movie-synopsis">
+                    Descripción de la tercera película. Puedes agregar información sobre el director, año de estreno, género, o cualquier dato interesante que quieras compartir. Una aventura espacial épica llena de efectos especiales.
+                </div>
+                <a href="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL3" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
             </div>
             
             <!-- PELÍCULA 4 -->
             <div class="movie-item">
-                <iframe src="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL4?embed" 
-                        class="movie-video" 
-                        allowfullscreen>
-                </iframe>
-                <img src="https://via.placeholder.com/400x300/666666/ffffff?text=Poster+Pelicula+4" 
+                <img src="https://via.placeholder.com/400x450/4d4d4d/ffffff?text=😂+Película+4" 
                      alt="Poster película 4" 
                      class="movie-image">
                 <h2 class="movie-title">Título de la Película 4</h2>
-                <div class="movie-synopsis">
-                    Sinopsis de la cuarta película. Continúa agregando más bloques como este para incluir todas las películas que quieras en tu catálogo.
+                <div class="movie-info">
+                    <span class="movie-year">2023</span>
+                    <span class="movie-genre">Comedia</span>
                 </div>
+                <div class="movie-synopsis">
+                    Sinopsis de la cuarta película. Continúa agregando más bloques como este para incluir todas las películas que quieras en tu catálogo. Una comedia divertida que te hará reír a carcajadas.
+                </div>
+                <a href="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL4" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
             </div>
             
-            <!-- AGREGA MAS PELÍCULAS COPIANDO ESTE BLOQUE -->
+            <!-- PELÍCULA 5 - EJEMPLO ADICIONAL -->
+            <div class="movie-item">
+                <img src="https://via.placeholder.com/400x450/5d5d5d/ffffff?text=🔥+Película+5" 
+                     alt="Poster película 5" 
+                     class="movie-image">
+                <h2 class="movie-title">Título de la Película 5</h2>
+                <div class="movie-info">
+                    <span class="movie-year">2024</span>
+                    <span class="movie-genre">Thriller</span>
+                </div>
+                <div class="movie-synopsis">
+                    Una película llena de suspenso y misterio que te mantendrá adivinando hasta el final. Con giros inesperados y una trama que te atrapará desde el primer minuto.
+                </div>
+                <a href="https://pixeldrain.com/u/CAMBIAR_POR_TU_URL5" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
+            </div>
+            
+            <!-- PLANTILLA PARA AGREGAR MÁS PELÍCULAS -->
             <!--
             <div class="movie-item">
-                <iframe src="TU_URL_AQUI" 
-                        class="movie-video" 
-                        allowfullscreen>
-                </iframe>
-                <img src="URL_DE_TU_IMAGEN" 
+                <img src="URL_DE_TU_POSTER" 
                      alt="Poster película" 
                      class="movie-image">
                 <h2 class="movie-title">Título de tu Película</h2>
+                <div class="movie-info">
+                    <span class="movie-year">AÑO</span>
+                    <span class="movie-genre">GÉNERO</span>
+                </div>
                 <div class="movie-synopsis">
                     Sinopsis de tu película...
                 </div>
+                <a href="TU_URL_DE_PIXELDRAIN" 
+                   class="watch-button" 
+                   target="_blank">
+                    <span class="play-icon">▶️</span>Ver Película
+                </a>
             </div>
             -->
             
