@@ -30,7 +30,7 @@
             font-size: 32px;
         }
         
-        /* Estilos para anuncios */
+        /* Estilos para anuncios - Solo banners normales */
         .ad-container {
             display: flex;
             justify-content: center;
@@ -43,32 +43,10 @@
             min-height: 80px;
         }
         
-        .ad-top {
-            margin-bottom: 30px;
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            background-color: #2d2d2d;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        
         .ad-middle {
             margin: 40px 0;
             background: linear-gradient(135deg, #2d2d2d, #3d3d3d);
             border: 2px solid #ff6b6b;
-        }
-        
-        .ad-sidebar {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 50;
-            background-color: #2d2d2d;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
         .movies-grid {
@@ -224,16 +202,6 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        @media (max-width: 1024px) {
-            .ad-sidebar {
-                display: none;
-            }
-            
-            .container {
-                margin-right: 0;
-            }
-        }
-        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -259,11 +227,6 @@
             
             .movie-info {
                 justify-content: center;
-            }
-            
-            .ad-top {
-                position: relative;
-                top: auto;
             }
             
             .ad-container {
@@ -298,8 +261,8 @@
     <div class="container">
         <h1>🎬 Catálogo de Películas</h1>
         
-        <!-- Anuncio superior pegajoso -->
-        <div class="ad-container ad-top">
+        <!-- Anuncio superior normal (no pegajoso) -->
+        <div class="ad-container">
             <script type="text/javascript">
                 atOptions = {
                     'key' : '9d6766e46c7b34676b45346acec44be2',
@@ -437,7 +400,7 @@
                 </a>
             </div>
 
-<!-- PELÍCULA 5.1 -->
+            <!-- PELÍCULA 5.1 -->
             <div class="movie-item">
                 <div class="movie-image-container">
                     <div class="loading-spinner"></div>
@@ -465,12 +428,6 @@
                     <span class="play-icon">▶️</span>Ver Película
                 </a>
             </div>
-            
-
-
-
-
-
             
             <!-- PELÍCULA 5 -->
             <div class="movie-item">
@@ -514,20 +471,6 @@
             </script>
             <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
         </div>
-    </div>
-    
-    <!-- Anuncio lateral fijo (solo en pantallas grandes) -->
-    <div class="ad-sidebar">
-        <script type="text/javascript">
-            atOptions = {
-                'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
-                'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
-                'params' : {}
-            };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
     </div>
 
     <script>
