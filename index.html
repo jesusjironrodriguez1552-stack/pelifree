@@ -49,18 +49,49 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
         
-        .movie-image {
+        .movie-image-container {
             width: 100%;
             height: 300px;
-            object-fit: cover;
             border-radius: 8px;
             margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .movie-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         
         .movie-image:hover {
             opacity: 0.8;
+            transform: scale(1.05);
+        }
+        
+        .image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #444, #666);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #ccc;
+            font-size: 24px;
+        }
+        
+        .image-placeholder.hidden {
+            display: none;
         }
         
         .movie-title {
@@ -78,6 +109,8 @@
             text-align: justify;
             font-size: 14px;
             margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
         }
         
         .movie-info {
@@ -132,6 +165,24 @@
             font-size: 18px;
         }
         
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid #666;
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -142,7 +193,7 @@
                 gap: 20px;
             }
             
-            .movie-image {
+            .movie-image-container {
                 height: 250px;
             }
             
@@ -161,7 +212,7 @@
         }
         
         @media (max-width: 480px) {
-            .movie-image {
+            .movie-image-container {
                 height: 200px;
             }
             
@@ -185,16 +236,24 @@
             
             <!-- PELÍCULA 1 -->
             <div class="movie-item">
-                <img src="https://pixeldrain.com/api/file/BBQtbbrW" 
-                     alt="Poster película 1" 
-                     class="movie-image">
-                <h2 class="movie-title">It Eso </h2>
+                <div class="movie-image-container">
+                    <div class="loading-spinner"></div>
+                    <div class="image-placeholder">
+                        <div>🎬</div>
+                        <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                    </div>
+                    <img data-src="https://pixeldrain.com/api/file/BBQtbbrW" 
+                         alt="Poster It Eso" 
+                         class="movie-image"
+                         style="display: none;">
+                </div>
+                <h2 class="movie-title">It Eso</h2>
                 <div class="movie-info">
                     <span class="movie-year">2017</span>
                     <span class="movie-genre">Terror</span>
                 </div>
                 <div class="movie-synopsis">
-                    n el verano de 1989, un grupo de niños maltratados se unieron para destruir a un monstruo cambia-formas, que se disfraza de payaso y se aprovecha de los niños de Derry, su pequeño pueblo de Maine.
+                    En el verano de 1989, un grupo de niños maltratados se unieron para destruir a un monstruo cambia-formas, que se disfraza de payaso y se aprovecha de los niños de Derry, su pequeño pueblo de Maine.
                 </div>
                 <a href="https://pixeldrain.com/u/Q8KRdN3t" 
                    class="watch-button" 
@@ -205,18 +264,26 @@
             
             <!-- PELÍCULA 2 -->
             <div class="movie-item">
-                <img src="https://pixeldrain.com/api/file/SVoZyfkC" 
-                     alt="Poster película 2" 
-                     class="movie-image">
+                <div class="movie-image-container">
+                    <div class="loading-spinner"></div>
+                    <div class="image-placeholder">
+                        <div>🎬</div>
+                        <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                    </div>
+                    <img data-src="https://pixeldrain.com/api/file/SVoZyfkC" 
+                         alt="Poster La hora de la desaparición" 
+                         class="movie-image"
+                         style="display: none;">
+                </div>
                 <h2 class="movie-title">La hora de la desaparición</h2>
                 <div class="movie-info">
                     <span class="movie-year">2023</span>
-                    <span class="movie-genre">Drama</span>
+                    <span class="movie-genre">Terror/Misterio</span>
                 </div>
                 <div class="movie-synopsis">
                     Cuando todos los niños de una secundaria, menos uno, desaparecen misteriosamente la misma noche y exactamente a la misma hora, toda la comunidad de un pequeño pueblo se pregunta quién (o qué) es responsable de su desaparición.
-                    Genero: Terror, Misterio
-                   Actores: Julia Garner, Josh Brolin, Alden Ehrenreich, Austin Abrams, Benedict Wong, Amy Madigan, Cary Christopher, Toby Huss, Whitmer Thomas, Callie Schuttera, June Diane Raphael, Scarlett Sher, Jason Turner, Anny Jules, Ali Burch
+                    <br><br>
+                    <strong>Actores:</strong> Julia Garner, Josh Brolin, Alden Ehrenreich, Austin Abrams, Benedict Wong, Amy Madigan, Cary Christopher, Toby Huss, Whitmer Thomas, Callie Schuttera, June Diane Raphael, Scarlett Sher, Jason Turner, Anny Jules, Ali Burch
                 </div>
                 <a href="https://pixeldrain.com/u/AiTPN7Sm" 
                    class="watch-button" 
@@ -227,9 +294,12 @@
             
             <!-- PELÍCULA 3 -->
             <div class="movie-item">
-                <img src="https://via.placeholder.com/400x450/3d3d3d/ffffff?text=🚀+Película+3" 
-                     alt="Poster película 3" 
-                     class="movie-image">
+                <div class="movie-image-container">
+                    <div class="image-placeholder">
+                        <div>🚀</div>
+                        <div style="font-size: 14px; margin-top: 10px;">Película 3</div>
+                    </div>
+                </div>
                 <h2 class="movie-title">Título de la Película 3</h2>
                 <div class="movie-info">
                     <span class="movie-year">2024</span>
@@ -247,9 +317,12 @@
             
             <!-- PELÍCULA 4 -->
             <div class="movie-item">
-                <img src="https://via.placeholder.com/400x450/4d4d4d/ffffff?text=😂+Película+4" 
-                     alt="Poster película 4" 
-                     class="movie-image">
+                <div class="movie-image-container">
+                    <div class="image-placeholder">
+                        <div>😂</div>
+                        <div style="font-size: 14px; margin-top: 10px;">Película 4</div>
+                    </div>
+                </div>
                 <h2 class="movie-title">Título de la Película 4</h2>
                 <div class="movie-info">
                     <span class="movie-year">2023</span>
@@ -265,11 +338,14 @@
                 </a>
             </div>
             
-            <!-- PELÍCULA 5 - EJEMPLO ADICIONAL -->
+            <!-- PELÍCULA 5 -->
             <div class="movie-item">
-                <img src="https://via.placeholder.com/400x450/5d5d5d/ffffff?text=🔥+Película+5" 
-                     alt="Poster película 5" 
-                     class="movie-image">
+                <div class="movie-image-container">
+                    <div class="image-placeholder">
+                        <div>🔥</div>
+                        <div style="font-size: 14px; margin-top: 10px;">Película 5</div>
+                    </div>
+                </div>
                 <h2 class="movie-title">Título de la Película 5</h2>
                 <div class="movie-info">
                     <span class="movie-year">2024</span>
@@ -285,29 +361,111 @@
                 </a>
             </div>
             
-            <!-- PLANTILLA PARA AGREGAR MÁS PELÍCULAS -->
-            <!--
-            <div class="movie-item">
-                <img src="URL_DE_TU_POSTER" 
-                     alt="Poster película" 
-                     class="movie-image">
-                <h2 class="movie-title">Título de tu Película</h2>
-                <div class="movie-info">
-                    <span class="movie-year">AÑO</span>
-                    <span class="movie-genre">GÉNERO</span>
-                </div>
-                <div class="movie-synopsis">
-                    Sinopsis de tu película...
-                </div>
-                <a href="TU_URL_DE_PIXELDRAIN" 
-                   class="watch-button" 
-                   target="_blank">
-                    <span class="play-icon">▶️</span>Ver Película
-                </a>
-            </div>
-            -->
-            
         </div>
     </div>
+
+    <script>
+        // Sistema de carga de imágenes con fallback
+        function loadImage(img, placeholder, spinner) {
+            const src = img.getAttribute('data-src');
+            if (!src) return;
+            
+            // Crear una nueva imagen para probar la carga
+            const testImg = new Image();
+            
+            testImg.onload = function() {
+                // La imagen se cargó correctamente
+                img.src = src;
+                img.style.display = 'block';
+                if (placeholder) placeholder.classList.add('hidden');
+                if (spinner) spinner.style.display = 'none';
+            };
+            
+            testImg.onerror = function() {
+                // Error al cargar la imagen, mostrar placeholder con mensaje de error
+                if (spinner) spinner.style.display = 'none';
+                if (placeholder) {
+                    placeholder.innerHTML = `
+                        <div style="font-size: 24px;">🖼️</div>
+                        <div style="font-size: 12px; margin-top: 10px; text-align: center;">
+                            Error al cargar imagen<br>
+                            <span style="font-size: 10px; color: #888;">
+                                Formato no compatible o URL inválida
+                            </span>
+                        </div>
+                    `;
+                }
+            };
+            
+            // Iniciar la carga de prueba
+            testImg.src = src;
+        }
+        
+        // Cargar todas las imágenes cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', function() {
+            const movieItems = document.querySelectorAll('.movie-item');
+            
+            movieItems.forEach(item => {
+                const img = item.querySelector('.movie-image');
+                const placeholder = item.querySelector('.image-placeholder');
+                const spinner = item.querySelector('.loading-spinner');
+                
+                if (img && img.getAttribute('data-src')) {
+                    loadImage(img, placeholder, spinner);
+                } else {
+                    // No hay imagen para cargar, ocultar spinner
+                    if (spinner) spinner.style.display = 'none';
+                }
+            });
+        });
+
+        // Función para agregar nueva película (útil para desarrollo)
+        function addMovie(title, year, genre, synopsis, imageUrl, watchUrl) {
+            const moviesGrid = document.querySelector('.movies-grid');
+            const movieHTML = `
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="${imageUrl}" 
+                             alt="Poster ${title}" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">${title}</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">${year}</span>
+                        <span class="movie-genre">${genre}</span>
+                    </div>
+                    <div class="movie-synopsis">
+                        ${synopsis}
+                    </div>
+                    <a href="${watchUrl}" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+            `;
+            
+            moviesGrid.insertAdjacentHTML('beforeend', movieHTML);
+            
+            // Cargar la imagen del nuevo elemento
+            const newItem = moviesGrid.lastElementChild;
+            const img = newItem.querySelector('.movie-image');
+            const placeholder = newItem.querySelector('.image-placeholder');
+            const spinner = newItem.querySelector('.loading-spinner');
+            
+            if (img && img.getAttribute('data-src')) {
+                loadImage(img, placeholder, spinner);
+            }
+        }
+
+        // Ejemplo de uso para agregar película dinámicamente:
+        // addMovie("Nueva Película", "2024", "Acción", "Sinopsis aquí...", "URL_imagen", "URL_pelicula");
+    </script>
 </body>
 </html>
