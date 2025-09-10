@@ -182,6 +182,56 @@
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
+
+        /* Estilos para publicidad */
+        .ad-container {
+            margin: 30px 0;
+            text-align: center;
+            padding: 20px;
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+
+        .ad-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-top {
+            margin: 20px 0 40px 0;
+        }
+
+        .ad-middle {
+            margin: 40px 0;
+        }
+
+        .ad-bottom {
+            margin: 40px 0 20px 0;
+        }
+
+        /* Banner superior */
+        .top-banner {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Native ad container */
+        .native-ad {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #444;
+            margin: 30px 0;
+        }
         
         @media (max-width: 768px) {
             body {
@@ -209,6 +259,11 @@
             .movie-info {
                 justify-content: center;
             }
+
+            .ad-container {
+                padding: 15px;
+                margin: 20px 0;
+            }
         }
         
         @media (max-width: 480px) {
@@ -225,11 +280,36 @@
                 padding: 10px 15px;
                 font-size: 14px;
             }
+
+            .top-banner {
+                font-size: 16px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Banner superior -->
+        <div class="top-banner">
+            Publicidad
+        </div>
+
+        <!-- Primer banner publicitario (468x60) -->
+        <div class="ad-container ad-top">
+            <div class="ad-label">Publicidad</div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '9d6766e46c7b34676b45346acec44be2',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/9d6766e46c7b34676b45346acec44be2/invoke.js"></script>
+        </div>
+
         <h1>🎬 Catálogo de Películas</h1>
         
         <div class="movies-grid">
@@ -291,7 +371,16 @@
                     <span class="play-icon">▶️</span>Ver Película
                 </a>
             </div>
+        </div>
 
+        <!-- Native Ad en el medio -->
+        <div class="native-ad">
+            <div class="ad-label">Publicidad</div>
+            <script async="async" data-cfasync="false" src="//pl27617152.revenuecpmgate.com/557064b3e7068646f1d1e93ff3e1bd7d/invoke.js"></script>
+            <div id="container-557064b3e7068646f1d1e93ff3e1bd7d"></div>
+        </div>
+
+        <div class="movies-grid">
             <!-- PELÍCULA 3 -->
             <div class="movie-item">
                 <div class="movie-image-container">
@@ -408,8 +497,9 @@
             </div>
         </div>
         
-        <!-- Anuncio inferior -->
-        <div class="ad-container">
+        <!-- Banner inferior -->
+        <div class="ad-container ad-bottom">
+            <div class="ad-label">Publicidad</div>
             <script type="text/javascript">
                 atOptions = {
                     'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
@@ -418,8 +508,13 @@
                     'width' : 320,
                     'params' : {}
                 };
-                document.write('<scr' + 'ipt type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></scr' + 'ipt>');
             </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
+        </div>
+
+        <!-- Banner final de publicidad -->
+        <div class="top-banner">
+            Publicidad
         </div>
     </div>
 
