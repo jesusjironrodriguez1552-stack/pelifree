@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas pagina 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            font-size: 32px;
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .movie-item {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #444;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .movie-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .movie-image-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .movie-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .movie-image:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+        
+        .image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #444, #666);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #ccc;
+            font-size: 24px;
+        }
+        
+        .image-placeholder.hidden {
+            display: none;
+        }
+        
+        .movie-title {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .movie-synopsis {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.5;
+            text-align: justify;
+            font-size: 14px;
+            margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .movie-year {
+            background-color: #444;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        
+        .movie-genre {
+            background-color: #555;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #fff;
+        }
+        
+        .watch-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .watch-button:hover {
+            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .play-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid #666;
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Estilos para publicidad */
+        .ad-container {
+            margin: 25px 0;
+            text-align: center;
+            padding: 20px;
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            border: 1px solid #444;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-top {
+            margin: 20px 0 30px 0;
+        }
+
+        .ad-middle {
+            margin: 35px 0;
+        }
+
+        .ad-between {
+            margin: 30px 0;
+        }
+
+        .ad-bottom {
+            margin: 30px 0 20px 0;
+        }
+
+        /* Banner superior */
+        .top-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            text-align: center;
+            padding: 18px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Grid para películas con separadores publicitarios */
+        .content-section {
+            margin-bottom: 40px;
+        }
+        
+        /* Estilos para navegación */
+        .navigation {
+            text-align: center;
+            margin: 50px 0 30px 0;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            border: 2px solid transparent;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-button:active {
+            transform: translateY(0);
+        }
+        
+        .nav-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        /* Indicador de página */
+        .page-indicator {
+            text-align: center;
+            margin: 30px 0;
+            color: #ccc;
+            font-size: 16px;
+        }
+        
+        .current-page {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .movie-image-container {
+                height: 280px;
+            }
+            
+            .movie-item {
+                padding: 18px;
+            }
+            
+            h1 {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
+            
+            .movie-info {
+                justify-content: center;
+            }
+
+            .ad-container {
+                padding: 18px;
+                margin: 20px 0;
+                min-height: 120px;
+            }
+
+            .ad-between {
+                margin: 25px 0;
+            }
+
+            .top-banner {
+                font-size: 16px;
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            /* Hacer los banners más visibles en móvil */
+            .ad-container {
+                background: linear-gradient(135deg, #2d2d2d, #3d3d3d);
+                border: 2px solid #555;
+            }
+            
+            .nav-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            
+            .navigation {
+                margin: 40px 0 25px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .movie-image-container {
+                height: 250px;
+            }
+            
+            .movie-synopsis {
+                padding: 12px;
+                font-size: 13px;
+                max-height: 120px;
+            }
+            
+            .watch-button {
+                padding: 12px 18px;
+                font-size: 15px;
+            }
+
+            .top-banner {
+                font-size: 15px;
+                padding: 12px;
+            }
+
+            .ad-container {
+                margin: 18px 0;
+                padding: 15px;
+                min-height: 100px;
+            }
+
+            .movies-grid {
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+            
+            .nav-button {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .page-indicator {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Banner superior principal -->
+        <div class="top-banner">
+            🎬 PELÍCULAS GRATIS EN HD - 🎬
+        </div>
+
+        <!-- Indicador de página actual -->
+        <div class="page-indicator">
+            Estás viendo: <span class="current-page">Página 3</span>
+        </div>
+
+        <!-- Primer banner publicitario -->
+        <div class="ad-container ad-top">
+            <div class="ad-label">Publicidad Patrocinada</div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '9d6766e46c7b34676b45346acec44be2',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/9d6766e46c7b34676b45346acec44be2/invoke.js"></script>
+        </div>
+
+        <h1>🎬 Catálogo de Películas Premium PG2 </h1>
+        
+        <!-- SECCIÓN 1: Primeras 2 películas -->
+        <div class="content-section">
+            <div class="movies-grid">
+                <!-- PELÍCULA 1 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Farf2DgdTEVL3xjOjkpboMOV8NQt.jpg&w=640&q=75" 
+                             alt="Poster" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Ángeles del desierto</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Accion</span>
+                    </div>
+                    <div class="movie-synopsis">
+                    Durante la retirada de Estados Unidos de Afganistán en 2021, un grupo de mujeres soldados que se hacen pasar por ayuda médica son enviadas de vuelta para rescatar a un grupo de adolescentes secuestradas entre ISIS y los talibanes.
+                    </div>
+                    <a href="https://pixeldrain.com/u/J6zmDiXt" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+
+                <!-- PELÍCULA 2 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F2Lqmf6PWcC6ofGbnLbid5FpcxFs.jpg&w=640&q=75" 
+                             alt="Poster Mas alla de la Fuerza mas alla de la Fe" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Mas alla de la Fuerza mas alla de la Fe</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Acción</span>
+                    </div>
+                    <div class="movie-synopsis">
+                       Jon Aames, devastado por la muerte de su hijo, pierde la fe y el propósito en la vida. Decide convertirse en voluntario en una línea de ayuda emocional, donde conoce a Calvin, un joven abandonado y atrapado en un entorno peligroso. Al descubrir su interés por la lucha libre, Jon lo entrena y le ofrece esperanza. Enfrentando desafíos internos y externos, ambos emprenden una conmovedora travesía de superación donde la fe, la disciplina y la conexión humana se revelan como caminos hacia la redención.
+                   Genero: Drama
+                   
+                        <br><strong>Actores:</strong> Actores: Antonio Sabàto, Jr., Cameron Arnett, Shari Rigby, Will Oliver, Emma Elle Roberts, Sharonne Lanier, Shawn Alexander Thompson, Porsche Kemp, James Latona, Joshua Lewis
+                   Backdrop
+                    </div>
+                    <a href="https://pixeldrain.com/u/wqXEFTAL" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner publicitario entre películas -->
+        <div class="ad-container ad-between">
+            <div class="ad-label">Publicidad Patrocinada</div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
+        </div>
+
+        <!-- SECCIÓN 2: Siguientes 2 películas -->
+        <div class="content-section">
+            <div class="movies-grid">
+                <!-- PELÍCULA 3 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FwNwN0F85lrOOpytOqLBRVk3lmkh.jpg&w=640&q=75" 
+                             alt="Poster Secuestro en el aire 1971" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Secuestro en el aire 1971</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Acción</span>
+                    </div>
+                    <div class="movie-synopsis">
+                       Cuando un avión de pasajeros es secuestrado en el espacio aéreo de Corea en 1971, un grupo de personas lucha por salvar su vida en una situación extrema.
+
+                      <br><strong>Actores:</strong> Tony Jaa, 洪浚嘉, 释行宇, 姜皓文, 陈朵怡
+                    </div>
+                    <a href="https://pixeldrain.com/u/xLdGafLN" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+
+                <!-- PELÍCULA 4 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FtjCeKESv6z3g7zu9JFCvKpkFEjt.jpg&w=640&q=75" 
+                             alt="Poster El cuento del lobo" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">El cuento del lobo</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2025</span>
+                        <span class="movie-genre">Suspenso, Misterio</span>
+                    </div>
+                    <div class="movie-synopsis">
+                       Olga y Javier, una pareja de clase media, presencian como la chica que va a limpiarles la casa recibe mensajes amenazantes en su móvil. Ante esta situación, deciden intervenir, enfrentándose así a un repentino cambio de vida. La aparición del padre de la chica, las dudas y las diferencias cada vez generan más interrogantes en una situación complicada de resolver.
+
+                      <br><strong>Actores:</strong> Denzel Washington, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright
+                    </div>
+                    <a href="https://pixeldrain.com/u/bdvQhdQP" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Native Ad grande en el medio -->
+        <div class="ad-container ad-middle">
+            <div class="ad-label">Contenido Patrocinado</div>
+            <script async="async" data-cfasync="false" src="//pl27617152.revenuecpmgate.com/557064b3e7068646f1d1e93ff3e1bd7d/invoke.js"></script>
+            <div id="container-557064b3e7068646f1d1e93ff3e1bd7d"></div>
+        </div>
+
+        <!-- SECCIÓN 3: Siguientes 2 películas -->
+        <div class="content-section">
+            <div class="movies-grid">
+                <!-- PELÍCULA 5 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F4RpEPkJ6osoSNOMZy5F7MS5L551.jpg&w=640&q=75" 
+                             alt="Poster Al borde de la extinción" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Al borde de la extinción</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Ciencia ficción, Drama, Suspenso</span>
+                    </div>
+                    <div class="movie-synopsis">
+                    Un meteorito cae en un pequeño pueblo, el aire se contamina y la gente empieza a morir. Lauren, una astrobióloga, es contratada para encontrar respuestas y resolver la crisis. En el lugar del impacto del meteorito, un árbol gigantesco está liberando esporas tóxicas, lo que hace sospechar que ha sido colocado allí para crear en la Tierra un entorno habitable para habitantes de otro mundo.
+                       <br><strong>Actores:</strong> Scott Chambers, Tallulah Evans, Ryan Oliva, Lewis Santer
+                    </div>
+                    <a href="https://pixeldrain.com/u/ScPoFCYD" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+
+                <!-- PELÍCULA 6 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FvIkfAFMOOro5U01raZJ9nScGeBM.jpg&w=640&q=75" 
+                             alt="Poster Riesgo bajo cero: Venganza" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Almost Cops</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Acción</span>
+                    </div>
+                    <div class="movie-synopsis">
+                       Cuando un oficial comunitario demasiado entusiasta y un temerario exdetective se ven obligados a trabajar juntos, oleadas de caos inundan las calles de Róterdam.
+                       Genero: Acción, Comedia, Crimen, Misterio
+                      Actores: Jandino Asporaat, Werner Kolf, Mark Rietman, Florence Vos Weeda, Juliette van Ardenne, Ferdi Stofmeel, Teun Kuilboer, Daniël Kolf, Victoria Koblenko, Romana Vrede, Yannick Jozefzoon, Nazmiye Oral, Rian Gerritsen, Richard Groenendijk, Ergün Şimşek
+                       Backdrop
+
+                       <br><strong>Actores:</strong> 
+                    </div>
+                    <a href="https://pixeldrain.com/u/AxPY1wYT" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner publicitario entre películas -->
+        <div class="ad-container ad-between">
+            <div class="ad-label">Publicidad Patrocinada</div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '9d6766e46c7b34676b45346acec44be2',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/9d6766e46c7b34676b45346acec44be2/invoke.js"></script>
+        </div>
+
+        <!-- SECCIÓN 4: Últimas 2 películas -->
+        <div class="content-section">
+            <div class="movies-grid">
+                <!-- PELÍCULA 7 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FiWLV12z9oexSRLz2WKyqCZbKoPA.jpg&w=640&q=75" 
+                             alt="Poster Superman" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">Demon Slayer: Kimetsu no Yaiba Castillo infinito</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2025</span>
+                        <span class="movie-genre">Animación, Acción, Fantasía, Suspenso</span>
+                    </div>
+                    <div class="movie-synopsis">
+                       Tanjirō Kamado es un chico que se unió a una organización dedicada a cazar demonios después de que su hermana menor, Nezuko, fuera convertida. Mientras los miembros de la organización y los Pilares participaban en un programa de entrenamiento grupal, como preparación para la inminente batalla contra los demonios, Muzan Kibutsuji aparece en la Mansión Ubuyashiki. Con el jefe de la organización en peligro, Tanjirō y los Pilares corren hacia la mansión, pero son arrastrados a un espacio misterioso por obra de Kibutsuji. El lugar al que han caído Tanjirō y los cazadores es el bastión de los demonios: el Castillo Infinito. Así, el campo de batalla queda establecido para dar fin a la guerra entre humanos y demonios.
+                       <br><strong>Actores:</strong> David Corenswet, Rachel Brosnahan, Nicholas Hoult, Edi Gathegi
+                    </div>
+                    <a href="https://pixeldrain.com/u/UHKuCuom" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+
+                <!-- PELÍCULA 8 -->
+                <div class="movie-item">
+                    <div class="movie-image-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-placeholder">
+                            <div>🎬</div>
+                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
+                        </div>
+                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FuKGQZ93nMmnM2QPbPDmVcl5al79.jpg&w=640&q=75" 
+                             alt="Poster Get Fast" 
+                             class="movie-image"
+                             style="display: none;">
+                    </div>
+                    <h2 class="movie-title">the hitmen</h2>
+                    <div class="movie-info">
+                        <span class="movie-year">2024</span>
+                        <span class="movie-genre">Acción</span>
+                    </div>
+                    <div class="movie-synopsis">
+                        "The Hitmen" es una divertida y muy entretenida combinación de comedia y crimen, sobre los desafíos a la lealtad 
+                        y el honor de dos ejecutores de la mafia, y las decisiones que deben tomar y que podrían marcar la diferencia entre la vida y la muerte........ 
+                        incluido el suyo propio. "The Hitmen" combina acción mafiosa de alto riesgo con desventuras cómicas y ofrece una atractiva combinación de crimen y comedia, impulsada
+                        por una escritura aguda y actuaciones sólidas. La autenticidad y la historia humorística se centran en los ejecutores de la mafia cuya última misión toma un giro cómico cuando se encuentran cuidando al hijo pequeño de Carlucci. The Hitmen no sólo muestra el talento y la visión de sus creadores, sino que también sirve como prueba de que las producciones independientes pueden tener éxito en las principales plataformas.
+                        <br><strong>Género:</strong> Acción, Crimen, Suspenso
+                    </div>
+                    <a href="https://pixeldrain.com/u/mUMRyGMp" 
+                       class="watch-button" 
+                       target="_blank">
+                        <span class="play-icon">▶️</span>Ver Película
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navegación a la siguiente página -->
+        <div class="navigation">
+            <a href="index.html" class="nav-button">
+                <span class="nav-icon">🎬</span>Ver más películas
+            </a>
+        </div>
+        
+        <!-- Banner inferior grande -->
+        <div class="ad-container ad-bottom">
+            <div class="ad-label">Publicidad Patrocinada</div>
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
+                    'format' : 'iframe',
+                    'height' : 100,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
+        </div>
+
+        <!-- Banner final llamativo -->
+        <div class="top-banner">
+            🎬 DISFRUTA MÁS PELÍCULAS GRATIS - PUBLICIDAD 🎬
+        </div>
+    </div>
+
+    <script>
+        function loadImage(img, placeholder, spinner) {
+            const src = img.getAttribute('data-src');
+            if (!src) return;
+            
+            const testImg = new Image();
+            
+            testImg.onload = function() {
+                img.src = src;
+                img.style.display = 'block';
+                if (placeholder) placeholder.classList.add('hidden');
+                if (spinner) spinner.style.display = 'none';
+            };
+            
+            testImg.onerror = function() {
+                if (spinner) spinner.style.display = 'none';
+                if (placeholder) {
+                    placeholder.innerHTML = `
+                        <div style="font-size: 24px;">🖼️</div>
+                        <div style="font-size: 12px; margin-top: 10px; text-align: center;">
+                            Error al cargar imagen<br>
+                            <span style="font-size: 10px; color: #888;">
+                                Formato no compatible o URL inválida
+                            </span>
+                        </div>
+                    `;
+                }
+            };
+            
+            testImg.src = src;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const movieItems = document.querySelectorAll('.movie-item');
+            
+            movieItems.forEach(item => {
+                const img = item.querySelector('.movie-image');
+                const placeholder = item.querySelector('.image-placeholder');
+                const spinner = item.querySelector('.loading-spinner');
+                
+                if (img && img.getAttribute('data-src')) {
+                    loadImage(img, placeholder, spinner);
+                } else {
+                    if (spinner) spinner.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
