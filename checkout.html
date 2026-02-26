@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jesu Jiron — Tienda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro: #0d0d0d;
+      --rojo: #E63946;
+      --crema: #F4F1E8;
+      --amarillo: #FFD60A;
+      --gris-claro: #f0ede6;
+      --gris-medio: #e5e2da;
+      --texto: #1a1a1a;
+      --verde: #22c55e;
+    }
+    body { font-family: 'Syne', sans-serif; background: var(--gris-claro); color: var(--texto); min-height: 100vh; }
+    .hidden { display: none !important; }
+
+    /* ======= NAVBAR ======= */
+    .navbar {
+      background: var(--negro);
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 24px rgba(0,0,0,.4);
+    }
+    .nav-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; color: var(--crema);
+      letter-spacing: 3px; display: flex; align-items: center; gap: 10px;
+    }
+    .nav-brand span.red { color: var(--rojo); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-user {
+      color: rgba(255,255,255,.45); font-size: .85rem; font-weight: 600;
+      max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .nav-user strong { color: var(--amarillo); }
+    .btn-nav {
+      background: none; border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.6); padding: 7px 14px; border-radius: 6px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: .82rem;
+      cursor: pointer; letter-spacing: .5px; transition: all .2s;
+    }
+    .btn-nav:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+    .btn-cart-main {
+      background: var(--rojo); border: none; color: #fff;
+      padding: 9px 18px; border-radius: 6px;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .88rem;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-cart-main:hover { background: #c1121f; transform: scale(1.03); }
+    .badge {
+      background: var(--negro); color: var(--amarillo);
+      width: 22px; height: 22px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 900;
+    }
+    .btn-admin-nav {
+      background: rgba(255,214,10,.12); border: 1px solid rgba(255,214,10,.25);
+      color: var(--amarillo); padding: 7px 14px; border-radius: 6px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: .82rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-admin-nav:hover { background: rgba(255,214,10,.22); }
+
+    /* ======= HERO ======= */
+    .hero {
+      background: var(--negro);
+      padding: 56px 32px 64px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(230,57,70,.06) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(230,57,70,.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 48px;
+      background: var(--gris-claro);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--rojo); font-size: .78rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      color: var(--crema); line-height: .95; letter-spacing: 2px;
+    }
+    .hero h1 em { color: var(--rojo); font-style: normal; }
+    .hero-sub { color: rgba(255,255,255,.4); font-size: 1rem; margin-top: 16px; }
+
+    /* ======= ADMIN PANEL ======= */
+    .admin-wrap {
+      margin: 20px 32px 0;
+      background: #fff; border-radius: 12px;
+      border-left: 4px solid var(--amarillo);
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      overflow: hidden;
+      animation: fadeDown .3s ease;
+    }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+    .admin-head {
+      background: var(--negro); padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-head h3 { color: var(--amarillo); font-size: 1rem; font-weight: 800; letter-spacing: 1px; }
+    .btn-close-admin {
+      background: rgba(255,255,255,.1); border: none; color: #fff;
+      width: 30px; height: 30px; border-radius: 6px; cursor: pointer;
+      font-weight: 900; font-size: 1rem;
+    }
+    .admin-body { padding: 20px; }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .admin-grid.three { grid-template-columns: 2fr 1fr 1fr; }
+    .a-field label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+    .a-field input {
+      width: 100%; background: var(--gris-claro); border: 1.5px solid var(--gris-medio);
+      border-radius: 6px; padding: 11px 14px; font-family: 'Syne', sans-serif;
+      font-size: .9rem; color: var(--texto); transition: border-color .2s;
+    }
+    .a-field input:focus { outline: none; border-color: var(--amarillo); background: #fff; }
+    .btn-save {
+      background: var(--verde); color: #fff; border: none;
+      padding: 12px 28px; border-radius: 6px;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .9rem;
+      cursor: pointer; transition: transform .15s, background .2s;
+    }
+    .btn-save:hover { background: #16a34a; transform: scale(1.02); }
+    .admin-msg { font-size: .82rem; margin-top: 8px; font-weight: 700; min-height: 16px; }
+
+    /* ======= PRODUCTOS ======= */
+    .shop-section { padding: 28px 32px 60px; }
+    .section-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--rojo); margin-bottom: 8px;
+    }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--negro); letter-spacing: 1px; margin-bottom: 24px; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
+    }
+    .skeleton, .no-products {
+      grid-column: 1/-1; text-align: center; padding: 80px 20px;
+      color: #aaa; font-size: 1rem;
+    }
+
+    .card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.07);
+      transition: transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 10px 36px rgba(0,0,0,.13); }
+
+    .card-img {
+      width: 100%; height: 210px; object-fit: cover;
+      background: var(--gris-medio);
+    }
+    .card-img-ph {
+      width: 100%; height: 210px;
+      background: linear-gradient(135deg, var(--gris-medio), #d5d2cb);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+    .card-name { font-weight: 800; font-size: 1rem; color: var(--negro); margin-bottom: 4px; }
+    .card-desc { font-size: .83rem; color: #888; line-height: 1.5; flex: 1; margin-bottom: 12px; }
+    .card-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+    .card-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--rojo); letter-spacing: 1px; line-height: 1;
+    }
+    .card-price small { font-family: 'Syne', sans-serif; font-size: .75rem; color: #bbb; font-weight: 600; display: block; }
+    .card-stock { font-size: .78rem; color: var(--verde); font-weight: 700; margin-bottom: 4px; }
+
+    .btn-add {
+      background: var(--negro); color: var(--amarillo); border: none;
+      padding: 10px 16px; border-radius: 8px;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .85rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background .2s, transform .15s;
+      flex-shrink: 0;
+    }
+    .btn-add:hover { background: #222; transform: scale(1.04); }
+
+    /* ======= CARRITO SIDEBAR ======= */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55);
+      z-index: 200; backdrop-filter: blur(3px);
+    }
+    .sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 380px;
+      background: #fff; z-index: 201;
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 48px rgba(0,0,0,.18);
+      animation: slideRight .3s ease;
+    }
+    @keyframes slideRight { from{transform:translateX(100%)} to{transform:translateX(0)} }
+
+    .sidebar-head {
+      padding: 20px 24px; border-bottom: 1.5px solid var(--gris-medio);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sidebar-head h2 { font-size: 1.15rem; font-weight: 800; }
+    .btn-close-sidebar {
+      background: var(--gris-claro); border: none;
+      width: 34px; height: 34px; border-radius: 8px;
+      cursor: pointer; font-size: 1rem; font-weight: 900;
+    }
+
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+    .cart-empty { text-align: center; color: #bbb; padding: 60px 20px; line-height: 2; font-size: .95rem; }
+
+    .cart-item {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid var(--gris-medio); align-items: center;
+    }
+    .ci-img {
+      width: 60px; height: 60px; border-radius: 8px; object-fit: cover;
+      background: var(--gris-medio); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+    }
+    .ci-info { flex: 1; }
+    .ci-name { font-weight: 800; font-size: .9rem; margin-bottom: 2px; }
+    .ci-price { color: var(--rojo); font-weight: 700; font-size: .88rem; }
+    .ci-qty { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    .qty-btn {
+      width: 26px; height: 26px; border-radius: 5px; border: 1.5px solid var(--gris-medio);
+      background: #fff; cursor: pointer; font-weight: 900; font-size: .95rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-btn:hover { background: var(--gris-claro); }
+    .ci-qty span { font-weight: 700; font-size: .9rem; min-width: 20px; text-align: center; }
+    .ci-remove { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.1rem; padding: 4px; }
+    .ci-remove:hover { color: var(--rojo); }
+
+    .sidebar-foot { padding: 20px 24px; border-top: 1.5px solid var(--gris-medio); }
+    .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .cart-total span { font-size: 1rem; font-weight: 700; }
+    .cart-total strong { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--rojo); }
+    .btn-checkout {
+      width: 100%; padding: 15px; background: var(--negro); border: none;
+      border-radius: 8px; color: var(--amarillo);
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
+      cursor: pointer; letter-spacing: .5px;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+    .btn-checkout:hover { background: #1a1a1a; transform: translateY(-2px); }
+
+    /* ======= TOAST ======= */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--negro); color: var(--amarillo);
+      padding: 12px 26px; border-radius: 30px;
+      font-weight: 700; font-size: .9rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+      z-index: 9999; transition: transform .3s ease;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 600px) {
+      .navbar { padding: 0 16px; }
+      .hero { padding: 40px 20px 56px; }
+      .shop-section { padding: 20px 16px 48px; }
+      .admin-wrap { margin: 16px 16px 0; }
+      .admin-grid, .admin-grid.three { grid-template-columns: 1fr; }
+      .sidebar { width: 100%; }
+      .nav-user { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand">🛍️ JESU <span class="red">JIRON</span></div>
+  <div class="nav-right">
+    <div class="nav-user">Hola, <strong id="user-name">...</strong></div>
+    <button class="btn-admin-nav" onclick="toggleAdmin()">⚙️ Admin</button>
+    <button class="btn-cart-main" onclick="toggleCart()">
+      🛒 Carrito <span class="badge" id="cart-count">0</span>
+    </button>
+    <button class="btn-nav" onclick="logout()">Salir</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">● Tienda oficial</div>
+    <h1>LO MEJOR <em>AL</em><br/>MEJOR PRECIO</h1>
+    <p class="hero-sub">Productos seleccionados para vos. Entrega rápida. 🚀</p>
+  </div>
+</div>
+
+<!-- PANEL ADMIN -->
+<div id="admin-panel" class="admin-wrap hidden">
+  <div class="admin-head">
+    <h3>⚙️ AGREGAR PRODUCTO</h3>
+    <button class="btn-close-admin" onclick="toggleAdmin()">✕</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-grid three">
+      <div class="a-field">
+        <label>Nombre del producto</label>
+        <input type="text" id="p-nombre" placeholder="Ej: Camisa blanca"/>
+      </div>
+      <div class="a-field">
+        <label>Precio (S/.)</label>
+        <input type="number" id="p-precio" placeholder="0.00" step="0.01" min="0"/>
+      </div>
+      <div class="a-field">
+        <label>Stock</label>
+        <input type="number" id="p-stock" placeholder="10" min="0"/>
+      </div>
+    </div>
+    <div class="admin-grid" style="grid-template-columns:1fr">
+      <div class="a-field">
+        <label>URL de la imagen</label>
+        <input type="url" id="p-imagen" placeholder="https://... (opcional)"/>
+      </div>
+    </div>
+    <div class="a-field" style="margin-bottom:16px">
+      <label>Descripción</label>
+      <input type="text" id="p-desc" placeholder="Describe el producto brevemente"/>
+    </div>
+    <button class="btn-save" onclick="saveProduct()">✅ Guardar producto</button>
+    <div class="admin-msg" id="admin-msg"></div>
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="shop-section">
+  <div class="section-label">Disponibles ahora</div>
+  <div class="section-title">Todos los productos</div>
+  <div class="products-grid" id="products-grid">
+    <div class="skeleton">Cargando productos... ⏳</div>
+  </div>
+</div>
+
+<!-- CARRITO OVERLAY + SIDEBAR -->
+<div id="cart-overlay" class="overlay hidden" onclick="toggleCart()"></div>
+<div id="cart-sidebar" class="sidebar hidden">
+  <div class="sidebar-head">
+    <h2>🛒 Mi carrito</h2>
+    <button class="btn-close-sidebar" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">Tu carrito está vacío 🛒<br/>¡Agrega algo arriba!</div>
+  </div>
+  <div class="sidebar-foot">
+    <div class="cart-total">
+      <span>Total a pagar:</span>
+      <strong id="cart-total">S/. 0.00</strong>
+    </div>
+    <button class="btn-checkout" onclick="goToCheckout()">💳 Proceder al pago →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ---- AUTH GUARD ----
+  const sesion = localStorage.getItem('jesu_sesion');
+  if (!sesion) { window.location.replace('index.html'); }
+  const usuario = JSON.parse(sesion || '{}');
+  document.getElementById('user-name').textContent = usuario.nombre || usuario.correo || '?';
+
+  // ---- CARRITO (en memoria + sessionStorage) ----
+  let carrito = JSON.parse(sessionStorage.getItem('jesu_carrito') || '[]');
+  let productos = [];
+
+  function saveCart() { sessionStorage.setItem('jesu_carrito', JSON.stringify(carrito)); }
+
+  // ---- CARGAR PRODUCTOS ----
+  async function loadProducts() {
+    const grid = document.getElementById('products-grid');
+    try {
+      const { data, error } = await sb.from('productos').select('*').order('creado_en', { ascending: false });
+      if (error) throw error;
+      productos = data || [];
+      renderProducts(productos);
+    } catch(e) {
+      grid.innerHTML = `<div class="no-products">❌ Error cargando productos.<br/>Revisa <strong>config.js</strong> con tus credenciales de Supabase.</div>`;
+    }
+  }
+
+  function renderProducts(list) {
+    const grid = document.getElementById('products-grid');
+    if (!list.length) {
+      grid.innerHTML = '<div class="no-products">😮 Sin productos aún.<br/>¡Agrega uno con el panel ⚙️ Admin!</div>';
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="card">
+        ${p.imagen_url
+          ? `<img class="card-img" src="${p.imagen_url}" alt="${p.nombre}"
+               onerror="this.outerHTML='<div class=\\'card-img-ph\\'>📦</div>'">`
+          : '<div class="card-img-ph">📦</div>'}
+        <div class="card-body">
+          <div class="card-name">${p.nombre}</div>
+          <div class="card-desc">${p.descripcion || 'Producto de Jesu Jiron'}</div>
+          <div class="card-stock">✅ ${p.stock || 0} en stock</div>
+          <div class="card-footer">
+            <div class="card-price">
+              <small>Precio</small>
+              S/. ${Number(p.precio).toFixed(2)}
+            </div>
+            <button class="btn-add" onclick="addToCart('${p.id}')">+ Agregar</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ---- CARRITO LOGIC ----
+  function addToCart(id) {
+    const prod = productos.find(p => p.id === id);
+    if (!prod) return;
+    const existing = carrito.find(i => i.id === id);
+    if (existing) {
+      if (existing.qty >= prod.stock) { toast('⚠️ No hay más stock'); return; }
+      existing.qty++;
+    } else {
+      carrito.push({ ...prod, qty: 1 });
+    }
+    saveCart();
+    renderCart();
+    toast(`✅ ${prod.nombre} agregado`);
+  }
+
+  function removeFromCart(id) {
+    carrito = carrito.filter(i => i.id !== id);
+    saveCart(); renderCart();
+  }
+
+  function changeQty(id, delta) {
+    const item = carrito.find(i => i.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) removeFromCart(id);
+    else { saveCart(); renderCart(); }
+  }
+
+  function renderCart() {
+    const count = carrito.reduce((s, i) => s + i.qty, 0);
+    const total = carrito.reduce((s, i) => s + i.precio * i.qty, 0);
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('cart-total').textContent = `S/. ${total.toFixed(2)}`;
+
+    const el = document.getElementById('cart-items');
+    if (!carrito.length) {
+      el.innerHTML = '<div class="cart-empty">Tu carrito está vacío 🛒<br/>¡Agrega algo arriba!</div>';
+      return;
+    }
+    el.innerHTML = carrito.map(i => `
+      <div class="cart-item">
+        ${i.imagen_url
+          ? `<img class="ci-img" src="${i.imagen_url}" alt="${i.nombre}"
+               onerror="this.style.display='none'">`
+          : '<div class="ci-img">📦</div>'}
+        <div class="ci-info">
+          <div class="ci-name">${i.nombre}</div>
+          <div class="ci-price">S/. ${(i.precio * i.qty).toFixed(2)}</div>
+          <div class="ci-qty">
+            <button class="qty-btn" onclick="changeQty('${i.id}',-1)">−</button>
+            <span>${i.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${i.id}',1)">+</button>
+          </div>
+        </div>
+        <button class="ci-remove" onclick="removeFromCart('${i.id}')">🗑</button>
+      </div>
+    `).join('');
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-sidebar').classList.toggle('hidden');
+    document.getElementById('cart-overlay').classList.toggle('hidden');
+  }
+
+  function goToCheckout() {
+    if (!carrito.length) { toast('⚠️ Agrega productos primero'); return; }
+    window.location.href = 'checkout.html';
+  }
+
+  // ---- ADMIN ----
+  function toggleAdmin() {
+    document.getElementById('admin-panel').classList.toggle('hidden');
+  }
+
+  async function saveProduct() {
+    const nombre = document.getElementById('p-nombre').value.trim();
+    const precio = document.getElementById('p-precio').value;
+    const stock  = document.getElementById('p-stock').value;
+    const imagen = document.getElementById('p-imagen').value.trim();
+    const desc   = document.getElementById('p-desc').value.trim();
+    const msg    = document.getElementById('admin-msg');
+    msg.textContent = '';
+
+    if (!nombre || !precio) { msg.style.color='#ef4444'; msg.textContent='⚠️ Nombre y precio son obligatorios'; return; }
+
+    try {
+      const { error } = await sb.from('productos').insert([{
+        nombre, precio: parseFloat(precio),
+        stock: parseInt(stock)||0,
+        imagen_url: imagen||null,
+        descripcion: desc||null
+      }]);
+      if (error) throw error;
+      msg.style.color = '#22c55e';
+      msg.textContent = '✅ Producto guardado con éxito!';
+      ['p-nombre','p-precio','p-stock','p-imagen','p-desc'].forEach(id => document.getElementById(id).value='');
+      loadProducts();
+      setTimeout(() => msg.textContent='', 3000);
+    } catch(e) {
+      msg.style.color='#ef4444';
+      msg.textContent='❌ Error al guardar en Supabase';
+    }
+  }
+
+  // ---- MISC ----
+  function logout() {
+    localStorage.removeItem('jesu_sesion');
+    sessionStorage.removeItem('jesu_carrito');
+    window.location.href = 'index.html';
+  }
+
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  }
+
+  // ---- INIT ----
+  renderCart();
+  loadProducts();
+</script>
+</body>
+</html>
