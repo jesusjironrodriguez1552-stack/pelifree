@@ -8,14 +8,9 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --negro: #0d0d0d;
-      --rojo: #E63946;
-      --crema: #F4F1E8;
-      --amarillo: #FFD60A;
-      --gris-claro: #f0ede6;
-      --gris-medio: #e5e2da;
-      --texto: #1a1a1a;
-      --verde: #22c55e;
+      --negro: #0d0d0d; --rojo: #E63946; --crema: #F4F1E8;
+      --amarillo: #FFD60A; --gris-claro: #f0ede6; --gris-medio: #e5e2da;
+      --texto: #1a1a1a; --verde: #22c55e; --azul: #3b82f6;
     }
     body { font-family: 'Syne', sans-serif; background: var(--gris-claro); color: var(--texto); min-height: 100vh; }
     .hidden { display: none !important; }
@@ -25,19 +20,17 @@
       background: var(--negro); height: 64px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 32px; position: sticky; top: 0; z-index: 10;
+      box-shadow: 0 2px 20px rgba(0,0,0,.4);
     }
-    .nav-brand {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem;
-      color: var(--crema); letter-spacing: 3px;
-    }
+    .nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--crema); letter-spacing: 3px; }
     .nav-brand span { color: var(--rojo); }
     .btn-back {
       background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
       color: rgba(255,255,255,.65); padding: 8px 16px; border-radius: 6px;
       font-family: 'Syne', sans-serif; font-weight: 700; font-size: .82rem;
-      cursor: pointer; letter-spacing: .5px; transition: all .2s;
+      cursor: pointer; transition: all .2s;
     }
-    .btn-back:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .btn-back:hover { background: rgba(255,255,255,.15); color: #fff; }
 
     /* BREADCRUMB */
     .breadcrumb {
@@ -64,65 +57,15 @@
       padding: 0 32px 60px;
     }
 
-    /* TARJETA VISUAL */
-    .card-visual-wrap { margin-bottom: 28px; perspective: 1200px; }
-    .card-visual {
-      background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%);
-      border-radius: 18px; padding: 28px;
-      color: #fff; height: 190px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      position: relative; overflow: hidden;
-      box-shadow: 0 12px 48px rgba(0,0,0,.35);
-      transition: transform .4s;
-    }
-    .card-visual::before {
-      content: '';
-      position: absolute; right: -40px; top: -40px;
-      width: 200px; height: 200px; border-radius: 50%;
-      background: rgba(255,214,10,.12);
-    }
-    .card-visual::after {
-      content: '';
-      position: absolute; left: -20px; bottom: -20px;
-      width: 140px; height: 140px; border-radius: 50%;
-      background: rgba(230,57,70,.15);
-    }
-    .card-chip {
-      font-size: .75rem; letter-spacing: 2px;
-      color: var(--amarillo); font-weight: 700;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .chip-icon {
-      width: 36px; height: 28px; border-radius: 5px;
-      background: linear-gradient(135deg, var(--amarillo), #f0a500);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .chip-lines { display: flex; flex-direction: column; gap: 4px; }
-    .chip-line { height: 2px; background: rgba(0,0,0,.35); border-radius: 2px; }
-    .chip-line:nth-child(1) { width: 22px; }
-    .chip-line:nth-child(2) { width: 16px; }
-    .chip-line:nth-child(3) { width: 22px; }
-    .card-number-v {
-      font-size: 1.35rem; letter-spacing: 5px; font-weight: 700;
-      position: relative; z-index: 1;
-    }
-    .card-bottom-v {
-      display: flex; justify-content: space-between;
-      font-size: .78rem; color: rgba(255,255,255,.6);
-      letter-spacing: 1.5px; text-transform: uppercase;
-      position: relative; z-index: 1;
-    }
-    .card-bottom-v strong { color: rgba(255,255,255,.9); font-weight: 700; display: block; font-size: .88rem; }
-
-    /* FORM */
+    /* SECCIÓN BOX */
     .section-box {
       background: #fff; border-radius: 14px;
-      padding: 28px; margin-bottom: 20px;
+      padding: 24px 28px; margin-bottom: 20px;
       box-shadow: 0 2px 16px rgba(0,0,0,.06);
     }
     .section-box h3 {
-      font-size: 1rem; font-weight: 800; letter-spacing: .5px;
-      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+      font-size: 1rem; font-weight: 800; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
     }
     .section-box h3 .ico {
       width: 32px; height: 32px; border-radius: 8px;
@@ -130,117 +73,266 @@
       align-items: center; justify-content: center; font-size: 1rem;
     }
 
+    /* DELIVERY / RECOJO SELECTOR */
+    .delivery-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
+    .delivery-opt {
+      border: 2px solid var(--gris-medio); border-radius: 12px;
+      padding: 16px; cursor: pointer; transition: all .2s; text-align: center;
+      position: relative;
+    }
+    .delivery-opt:hover { border-color: #aaa; }
+    .delivery-opt.selected { border-color: var(--rojo); background: rgba(230,57,70,.04); }
+    .delivery-opt .opt-icon { font-size: 2rem; display: block; margin-bottom: 6px; }
+    .delivery-opt .opt-title { font-weight: 800; font-size: .95rem; display: block; }
+    .delivery-opt .opt-sub { font-size: .78rem; color: #888; display: block; margin-top: 3px; }
+    .delivery-opt .opt-badge {
+      position: absolute; top: -8px; right: 10px;
+      background: var(--verde); color: #fff;
+      font-size: .65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px;
+    }
+    .delivery-opt.selected .opt-check {
+      position: absolute; top: 8px; left: 10px;
+      color: var(--rojo); font-size: .85rem; font-weight: 900;
+    }
+
+    /* DIRECCIÓN (solo si delivery) */
+    #delivery-fields { margin-top: 16px; }
+
+    /* FIELDS */
     .field { margin-bottom: 16px; }
     .field label {
       display: block; font-size: .72rem; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 7px;
     }
-    .field input {
+    .field input, .field select {
       width: 100%; background: var(--gris-claro);
       border: 1.5px solid var(--gris-medio); border-radius: 8px;
       padding: 13px 15px; font-family: 'Syne', sans-serif;
       font-size: .95rem; color: var(--texto);
       transition: border-color .2s, background .2s;
     }
-    .field input:focus { outline: none; border-color: var(--rojo); background: #fff; }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--rojo); background: #fff; }
     .field input::placeholder { color: #bbb; }
     .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
+    /* TARJETA */
+    .card-visual {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%);
+      border-radius: 18px; padding: 24px 28px;
+      color: #fff; height: 180px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,.3);
+      margin-bottom: 24px;
+    }
+    .card-visual::before {
+      content: ''; position: absolute; right: -40px; top: -40px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,214,10,.12);
+    }
+    .card-visual::after {
+      content: ''; position: absolute; left: -20px; bottom: -20px;
+      width: 130px; height: 130px; border-radius: 50%;
+      background: rgba(230,57,70,.15);
+    }
+    .card-chip { font-size: .72rem; letter-spacing: 2px; color: var(--amarillo); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .chip-icon { width: 34px; height: 26px; border-radius: 4px; background: linear-gradient(135deg, var(--amarillo), #e09500); }
+    .card-num-v { font-size: 1.25rem; letter-spacing: 5px; font-weight: 700; position: relative; z-index: 1; }
+    .card-bot { display: flex; justify-content: space-between; font-size: .75rem; color: rgba(255,255,255,.55); letter-spacing: 1.5px; text-transform: uppercase; position: relative; z-index: 1; }
+    .card-bot strong { color: rgba(255,255,255,.9); font-weight: 700; display: block; font-size: .85rem; }
+
     .err { color: var(--rojo); font-size: .82rem; font-weight: 700; margin-top: 10px; min-height: 16px; }
 
-    /* RESUMEN */
+    /* RESUMEN LATERAL */
     .summary-box {
       background: #fff; border-radius: 14px;
-      padding: 24px; position: sticky; top: 90px;
+      padding: 24px; position: sticky; top: 84px;
       box-shadow: 0 2px 16px rgba(0,0,0,.06);
     }
     .summary-title {
       font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
-      letter-spacing: 1px; margin-bottom: 20px;
+      letter-spacing: 1px; margin-bottom: 18px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .summary-title a {
-      font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700;
-      color: var(--rojo); text-decoration: none;
-    }
-
-    .s-item {
-      display: flex; gap: 12px; padding: 12px 0;
-      border-bottom: 1px solid var(--gris-medio); align-items: center;
-    }
+    .summary-title a { font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700; color: var(--rojo); text-decoration: none; }
+    .s-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--gris-medio); align-items: center; }
     .s-item:last-child { border-bottom: none; }
-    .s-item-img {
-      width: 52px; height: 52px; border-radius: 8px;
-      object-fit: cover; background: var(--gris-medio); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-    }
+    .s-item-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--gris-medio); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
     .s-item-info { flex: 1; }
-    .s-item-name { font-weight: 800; font-size: .88rem; margin-bottom: 2px; }
-    .s-item-qty { color: #888; font-size: .8rem; }
-    .s-item-price { font-weight: 700; color: var(--rojo); font-size: .9rem; }
-
-    .summary-sep { border: none; border-top: 2px dashed var(--gris-medio); margin: 16px 0; }
-    .summary-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 8px; color: #888; }
-    .summary-total {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 12px;
-    }
+    .s-item-name { font-weight: 800; font-size: .86rem; margin-bottom: 2px; }
+    .s-item-qty { color: #888; font-size: .78rem; }
+    .s-item-price { font-weight: 700; color: var(--rojo); font-size: .88rem; white-space: nowrap; }
+    .summary-sep { border: none; border-top: 2px dashed var(--gris-medio); margin: 14px 0; }
+    .summary-row { display: flex; justify-content: space-between; font-size: .88rem; margin-bottom: 8px; color: #888; }
+    .summary-total { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
     .summary-total span { font-weight: 800; font-size: 1rem; }
-    .summary-total strong {
-      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
-      color: var(--rojo); letter-spacing: 1px;
-    }
-
+    .summary-total strong { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--rojo); letter-spacing: 1px; }
     .btn-confirm {
-      width: 100%; padding: 16px; background: var(--rojo); border: none;
-      border-radius: 10px; color: #fff;
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
-      cursor: pointer; margin-top: 18px; letter-spacing: .5px;
+      width: 100%; padding: 15px; background: var(--rojo); border: none;
+      border-radius: 10px; color: #fff; font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 16px;
       transition: background .2s, transform .15s;
       box-shadow: 0 6px 24px rgba(230,57,70,.35);
     }
     .btn-confirm:hover { background: #c1121f; transform: translateY(-2px); }
     .btn-confirm:disabled { opacity: .6; pointer-events: none; }
+    .secure-note { text-align: center; color: #bbb; font-size: .76rem; margin-top: 10px; }
 
-    .secure-note {
-      text-align: center; color: #bbb; font-size: .78rem;
-      margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;
-    }
-
-    /* PANTALLA ÉXITO */
-    #success-screen {
-      position: fixed; inset: 0; background: var(--negro);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 9999; text-align: center; padding: 40px;
+    /* ===== PANTALLA DE RASTREO ===== */
+    #tracking-screen {
+      position: fixed; inset: 0; background: var(--gris-claro);
+      z-index: 500; overflow-y: auto;
       animation: fadeIn .4s ease;
     }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    .success-emoji {
-      font-size: 6rem; animation: pop .5s ease;
-      display: block; margin-bottom: 24px;
+
+    .track-navbar {
+      background: var(--negro); height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
     }
-    @keyframes pop {
-      0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)}
+    .track-navbar .brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--crema); letter-spacing: 3px; }
+    .track-navbar .brand span { color: var(--verde); }
+
+    .track-body { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .track-header { text-align: center; margin-bottom: 40px; }
+    .track-success-icon { font-size: 4.5rem; display: block; margin-bottom: 16px; animation: pop .5s ease; }
+    @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
+    .track-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--negro); letter-spacing: 2px; }
+    .track-header h1 span { color: var(--verde); }
+    .track-header p { color: #888; font-size: .95rem; margin-top: 8px; }
+
+    /* NUMERO DE PEDIDO */
+    .order-num-box {
+      background: var(--negro); border-radius: 12px;
+      padding: 16px 24px; margin-bottom: 32px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    #success-screen h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem; color: var(--crema); letter-spacing: 3px;
+    .order-num-box .label { color: rgba(255,255,255,.45); font-size: .78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .order-num-box .num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--amarillo); letter-spacing: 3px; }
+    .order-num-box .tipo-badge {
+      background: rgba(255,255,255,.1); color: #fff;
+      padding: 6px 14px; border-radius: 20px;
+      font-size: .8rem; font-weight: 700;
     }
-    #success-screen h1 span { color: var(--verde); }
-    #success-screen p { color: rgba(255,255,255,.4); font-size: 1rem; margin: 16px 0 36px; line-height: 1.7; }
+
+    /* TIPO ENTREGA */
+    .entrega-info {
+      background: #fff; border-radius: 12px; padding: 18px 22px;
+      margin-bottom: 28px; display: flex; gap: 14px; align-items: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .entrega-icon { font-size: 2.2rem; }
+    .entrega-text .title { font-weight: 800; font-size: 1rem; }
+    .entrega-text .sub { color: #888; font-size: .85rem; margin-top: 2px; }
+    .entrega-text .direccion { color: var(--azul); font-weight: 700; font-size: .88rem; margin-top: 4px; }
+
+    /* TIMELINE DE RASTREO */
+    .track-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--negro); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 19px; top: 0; bottom: 0;
+      width: 2px; background: var(--gris-medio);
+    }
+
+    .t-step { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+    .t-step:last-child { padding-bottom: 0; }
+    .t-dot {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; position: relative; z-index: 1;
+      border: 2px solid var(--gris-medio); background: #fff;
+      transition: all .5s;
+    }
+    .t-step.done .t-dot { background: var(--verde); border-color: var(--verde); }
+    .t-step.active .t-dot { background: var(--amarillo); border-color: var(--amarillo); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,214,10,.4)} 50%{box-shadow:0 0 0 10px rgba(255,214,10,0)} }
+    .t-step.pending .t-dot { opacity: .4; }
+
+    .t-content { flex: 1; padding-top: 8px; }
+    .t-title { font-weight: 800; font-size: .95rem; color: var(--negro); }
+    .t-step.pending .t-title { color: #bbb; }
+    .t-sub { font-size: .82rem; color: #aaa; margin-top: 3px; }
+    .t-step.done .t-sub, .t-step.active .t-sub { color: #888; }
+    .t-time { font-size: .75rem; color: #bbb; margin-top: 4px; font-weight: 700; }
+    .t-step.done .t-time, .t-step.active .t-time { color: var(--verde); }
+
+    /* MAPA SIMULADO (solo delivery) */
+    .fake-map {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      margin: 28px 0; box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    }
+    .map-header { background: var(--negro); padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+    .map-header span { color: rgba(255,255,255,.7); font-size: .82rem; font-weight: 700; }
+    .map-header .live { color: var(--verde); font-weight: 800; font-size: .75rem; letter-spacing: 2px; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .map-visual {
+      height: 180px; position: relative;
+      background: linear-gradient(135deg, #e8f4f8 0%, #d4eaf2 50%, #c8e0ec 100%);
+      overflow: hidden;
+    }
+    /* calles simuladas */
+    .map-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-blocks {
+      position: absolute; inset: 0;
+      display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(4, 1fr);
+      gap: 8px; padding: 8px;
+    }
+    .map-block {
+      border-radius: 4px;
+      background: rgba(180,200,215,.5);
+    }
+    .map-block:nth-child(3), .map-block:nth-child(7), .map-block:nth-child(12) { background: rgba(160,185,205,.7); }
+    .moto-icon {
+      position: absolute; font-size: 1.6rem;
+      animation: motoMove 6s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
+      z-index: 2;
+    }
+    @keyframes motoMove {
+      0%   { top: 60%; left: 10%; }
+      25%  { top: 30%; left: 35%; }
+      50%  { top: 55%; left: 60%; }
+      75%  { top: 25%; left: 75%; }
+      100% { top: 60%; left: 10%; }
+    }
+    .dest-icon { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; z-index: 2; animation: bounce2 1.5s ease-in-out infinite; }
+    @keyframes bounce2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .map-footer { padding: 10px 16px; background: #f8f8f8; font-size: .78rem; color: #888; font-weight: 600; display: flex; justify-content: space-between; }
+    .map-footer strong { color: var(--negro); }
+
+    /* RESUMEN DEL PEDIDO EN TRACKING */
+    .track-order-items {
+      background: #fff; border-radius: 14px; padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-top: 28px;
+    }
+    .track-order-items h4 { font-weight: 800; margin-bottom: 14px; font-size: .95rem; }
+    .toi-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--gris-medio); font-size: .88rem; }
+    .toi-item:last-child { border-bottom: none; }
+    .toi-name { font-weight: 700; }
+    .toi-price { color: var(--rojo); font-weight: 700; }
+    .toi-total { display: flex; justify-content: space-between; margin-top: 12px; font-weight: 800; }
+    .toi-total strong { color: var(--rojo); font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; }
+
     .btn-home {
-      background: var(--amarillo); color: var(--negro); border: none;
-      padding: 14px 36px; border-radius: 8px;
+      width: 100%; padding: 15px; background: var(--negro); border: none;
+      border-radius: 10px; color: var(--amarillo);
       font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
-      cursor: pointer; transition: transform .15s;
+      cursor: pointer; margin-top: 24px; letter-spacing: .5px;
+      transition: background .2s, transform .15s;
     }
-    .btn-home:hover { transform: scale(1.04); }
+    .btn-home:hover { background: #1a1a1a; transform: translateY(-2px); }
 
     /* CONFETTI */
     .confetti-piece {
-      position: fixed; width: 10px; height: 10px; border-radius: 2px;
-      pointer-events: none; z-index: 10000;
+      position: fixed; pointer-events: none; z-index: 9999;
       animation: fall linear forwards;
     }
     @keyframes fall {
@@ -250,9 +342,14 @@
 
     @media (max-width: 820px) {
       .checkout-layout { grid-template-columns: 1fr; padding: 0 16px 40px; }
-      .summary-box { position: static; }
-      .navbar { padding: 0 16px; }
+      .summary-box { position: static; order: -1; }
+      .navbar, .track-navbar { padding: 0 16px; }
       .breadcrumb { padding: 12px 16px; }
+      .track-body { padding: 28px 16px 60px; }
+      .delivery-opts { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .delivery-opts { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -261,96 +358,89 @@
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="nav-brand">🛍️ JESU <span>JIRON</span></div>
-  <button class="btn-back" onclick="window.location.href='tienda.html'">← Volver a la tienda</button>
+  <button class="btn-back" onclick="window.location.href='tienda.html'">← Volver</button>
 </nav>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb">
-  <div class="bc-step done">
-    <div class="bc-dot">✓</div> Carrito
-  </div>
+<div class="breadcrumb" id="breadcrumb">
+  <div class="bc-step done"><div class="bc-dot">✓</div> Carrito</div>
   <div class="bc-sep">›</div>
-  <div class="bc-step active">
-    <div class="bc-dot">2</div> Pago
-  </div>
+  <div class="bc-step active"><div class="bc-dot">2</div> Pago</div>
   <div class="bc-sep">›</div>
-  <div class="bc-step">
-    <div class="bc-dot">3</div> Confirmación
-  </div>
+  <div class="bc-step" id="bc3"><div class="bc-dot">3</div> Seguimiento</div>
 </div>
 
-<!-- LAYOUT -->
-<div class="checkout-layout">
+<!-- CHECKOUT LAYOUT -->
+<div class="checkout-layout" id="checkout-layout">
 
-  <!-- FORMULARIO -->
-  <div class="left-col">
+  <!-- COLUMNA IZQUIERDA -->
+  <div>
 
-    <!-- Tarjeta visual -->
+    <!-- 1. TIPO DE ENTREGA -->
     <div class="section-box">
-      <h3><span class="ico">💳</span> Datos de la tarjeta</h3>
-
-      <div class="card-visual-wrap">
-        <div class="card-visual" id="card-vis">
-          <div class="card-chip">
-            <div class="chip-icon">
-              <div class="chip-lines">
-                <div class="chip-line"></div>
-                <div class="chip-line"></div>
-                <div class="chip-line"></div>
-              </div>
-            </div>
-            JESU JIRON
-          </div>
-          <div class="card-number-v" id="vis-num">•••• •••• •••• ••••</div>
-          <div class="card-bottom-v">
-            <div>
-              <div style="font-size:.65rem;margin-bottom:2px">Titular</div>
-              <strong id="vis-name">TU NOMBRE</strong>
-            </div>
-            <div style="text-align:right">
-              <div style="font-size:.65rem;margin-bottom:2px">Vence</div>
-              <strong id="vis-exp">MM/AA</strong>
-            </div>
-          </div>
+      <h3><span class="ico">🚚</span> ¿Cómo quieres recibir tu pedido?</h3>
+      <div class="delivery-opts">
+        <div class="delivery-opt selected" id="opt-delivery" onclick="selectEntrega('delivery')">
+          <span class="opt-icon">🛵</span>
+          <span class="opt-title">Delivery</span>
+          <span class="opt-sub">Llega a tu puerta</span>
+          <span class="opt-badge">Gratis</span>
+          <span class="opt-check">✓</span>
+        </div>
+        <div class="delivery-opt" id="opt-recojo" onclick="selectEntrega('recojo')">
+          <span class="opt-icon">🏪</span>
+          <span class="opt-title">Recojo en tienda</span>
+          <span class="opt-sub">Jr. Los Andes 245, Lima</span>
+          <span class="opt-check" style="display:none">✓</span>
         </div>
       </div>
 
-      <div class="field">
-        <label>Nombre en la tarjeta</label>
-        <input type="text" id="c-nombre" placeholder="Como aparece en la tarjeta"
-               oninput="liveCard()" autocomplete="cc-name"/>
-      </div>
-      <div class="field">
-        <label>Número de tarjeta</label>
-        <input type="text" id="c-num" placeholder="0000 0000 0000 0000"
-               maxlength="19" oninput="formatNum(this);liveCard()" autocomplete="cc-number"/>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Vencimiento</label>
-          <input type="text" id="c-exp" placeholder="MM/AA" maxlength="5"
-                 oninput="formatExp(this);liveCard()" autocomplete="cc-exp"/>
+      <!-- Dirección (solo delivery) -->
+      <div id="delivery-fields">
+        <div class="field" style="margin-top:16px">
+          <label>Dirección de entrega</label>
+          <input type="text" id="c-direccion" placeholder="Ej: Av. Arequipa 1234, Miraflores"/>
         </div>
-        <div class="field">
-          <label>CVV</label>
-          <input type="text" id="c-cvv" placeholder="123" maxlength="3"
-                 autocomplete="cc-csc"/>
+        <div class="field-row">
+          <div class="field">
+            <label>Distrito</label>
+            <select id="c-distrito">
+              <option value="">Selecciona...</option>
+              <option>Miraflores</option><option>San Isidro</option>
+              <option>Barranco</option><option>Surco</option>
+              <option>La Molina</option><option>San Borja</option>
+              <option>Jesús María</option><option>Lince</option>
+              <option>San Miguel</option><option>Pueblo Libre</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Referencia</label>
+            <input type="text" id="c-referencia" placeholder="Frente al parque..."/>
+          </div>
         </div>
       </div>
-      <div class="err" id="pay-err"></div>
+
+      <!-- Info recojo (solo recojo) -->
+      <div id="recojo-fields" class="hidden" style="margin-top:16px;background:var(--gris-claro);border-radius:10px;padding:14px 16px;">
+        <div style="font-weight:800;font-size:.9rem;margin-bottom:4px">📍 Jesu Jiron Store</div>
+        <div style="color:#888;font-size:.85rem">Jr. Los Andes 245, Cercado de Lima</div>
+        <div style="color:var(--verde);font-weight:700;font-size:.82rem;margin-top:6px">🕐 Lun–Sáb 9am–8pm • Dom 10am–6pm</div>
+        <div style="color:#888;font-size:.8rem;margin-top:4px">Trae tu DNI y número de pedido</div>
+      </div>
     </div>
 
-    <!-- Datos de envío (opcional) -->
+    <!-- 2. DATOS DE CONTACTO -->
     <div class="section-box">
-      <h3><span class="ico">📦</span> Datos de contacto</h3>
+      <h3><span class="ico">👤</span> Datos de contacto</h3>
       <div class="field">
         <label>Correo electrónico</label>
-        <input type="email" id="c-email" placeholder="Para confirmación del pedido" autocomplete="email"/>
+        <input type="email" id="c-email" placeholder="Para confirmación del pedido"/>
       </div>
       <div class="field-row">
         <div class="field">
           <label>Nombre completo</label>
-          <input type="text" id="c-fullname" placeholder="Tu nombre" autocomplete="name"/>
+          <input type="text" id="c-fullname" placeholder="Tu nombre"/>
         </div>
         <div class="field">
           <label>Teléfono</label>
@@ -359,37 +449,128 @@
       </div>
     </div>
 
+    <!-- 3. TARJETA -->
+    <div class="section-box">
+      <h3><span class="ico">💳</span> Datos de la tarjeta</h3>
+      <div class="card-visual">
+        <div class="card-chip"><div class="chip-icon"></div> JESU JIRON</div>
+        <div class="card-num-v" id="vis-num">•••• •••• •••• ••••</div>
+        <div class="card-bot">
+          <div><div style="font-size:.6rem;margin-bottom:2px">Titular</div><strong id="vis-name">TU NOMBRE</strong></div>
+          <div style="text-align:right"><div style="font-size:.6rem;margin-bottom:2px">Vence</div><strong id="vis-exp">MM/AA</strong></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Nombre en la tarjeta</label>
+        <input type="text" id="c-nombre" placeholder="Como aparece en la tarjeta" oninput="liveCard()"/>
+      </div>
+      <div class="field">
+        <label>Número de tarjeta</label>
+        <input type="text" id="c-num" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatNum(this);liveCard()"/>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Vencimiento</label>
+          <input type="text" id="c-exp" placeholder="MM/AA" maxlength="5" oninput="formatExp(this);liveCard()"/>
+        </div>
+        <div class="field">
+          <label>CVV</label>
+          <input type="text" id="c-cvv" placeholder="123" maxlength="3"/>
+        </div>
+      </div>
+      <div class="err" id="pay-err"></div>
+    </div>
+
   </div>
 
-  <!-- RESUMEN PEDIDO -->
+  <!-- RESUMEN -->
   <div class="summary-box">
-    <div class="summary-title">
-      Tu pedido <a href="tienda.html">Editar</a>
-    </div>
+    <div class="summary-title">Tu pedido <a href="tienda.html">Editar</a></div>
     <div id="summary-items"></div>
     <hr class="summary-sep"/>
     <div class="summary-row"><span>Subtotal</span><span id="s-subtotal">S/. 0.00</span></div>
-    <div class="summary-row"><span>Envío</span><span style="color:var(--verde)">Gratis 🎁</span></div>
+    <div class="summary-row"><span id="envio-label">Delivery</span><span style="color:var(--verde)" id="envio-valor">Gratis 🎁</span></div>
     <div class="summary-total">
       <span>Total</span>
       <strong id="s-total">S/. 0.00</strong>
     </div>
-    <button class="btn-confirm" id="btn-confirm" onclick="confirmPurchase()">
-      ✅ Confirmar compra
-    </button>
-    <div class="secure-note">🔒 Pago seguro y encriptado</div>
+    <button class="btn-confirm" id="btn-confirm" onclick="confirmPurchase()">✅ Confirmar compra</button>
+    <div class="secure-note">🔒 Pago 100% seguro</div>
   </div>
 
 </div>
 
-<!-- PANTALLA ÉXITO (oculta al inicio) -->
-<div id="success-screen" class="hidden">
-  <span class="success-emoji">🎉</span>
-  <h1>¡COMPRA <span>EXITOSA!</span></h1>
-  <p>Gracias por comprar en <strong style="color:var(--amarillo)">Jesu Jiron</strong>.<br/>
-     Tu pedido fue registrado y está en camino. 🚀<br/>
-     Recibirás confirmación por correo.</p>
-  <button class="btn-home" onclick="goHome()">← Seguir comprando</button>
+<!-- ===== PANTALLA DE RASTREO ===== -->
+<div id="tracking-screen" class="hidden">
+  <nav class="track-navbar">
+    <div class="brand">🛍️ JESU <span>JIRON</span></div>
+    <div style="color:rgba(255,255,255,.4);font-size:.8rem;font-weight:700">SEGUIMIENTO DE PEDIDO</div>
+  </nav>
+
+  <div class="track-body">
+    <div class="track-header">
+      <span class="track-success-icon">🎉</span>
+      <h1>¡PEDIDO <span>CONFIRMADO!</span></h1>
+      <p>Tu compra fue registrada exitosamente. Aquí puedes seguir tu pedido.</p>
+    </div>
+
+    <!-- Número de pedido -->
+    <div class="order-num-box">
+      <div>
+        <div class="label">Número de pedido</div>
+        <div class="num" id="track-order-num">#JJ-000000</div>
+      </div>
+      <div class="tipo-badge" id="track-tipo-badge">🛵 Delivery</div>
+    </div>
+
+    <!-- Info entrega -->
+    <div class="entrega-info" id="track-entrega-info">
+      <div class="entrega-icon" id="track-icon">🛵</div>
+      <div class="entrega-text">
+        <div class="title" id="track-entrega-title">Delivery a domicilio</div>
+        <div class="sub" id="track-entrega-sub">Tiempo estimado: 30–45 min</div>
+        <div class="direccion" id="track-direccion"></div>
+      </div>
+    </div>
+
+    <!-- MAPA (solo delivery) -->
+    <div class="fake-map" id="track-map">
+      <div class="map-header">
+        <span>📍 Rastreando tu pedido</span>
+        <span class="live">● EN VIVO</span>
+      </div>
+      <div class="map-visual">
+        <div class="map-blocks">
+          <div class="map-block"></div><div class="map-block"></div><div class="map-block"></div>
+          <div class="map-block"></div><div class="map-block"></div><div class="map-block"></div>
+          <div class="map-block"></div><div class="map-block"></div><div class="map-block"></div>
+          <div class="map-block"></div><div class="map-block"></div><div class="map-block"></div>
+          <div class="map-block"></div><div class="map-block"></div><div class="map-block"></div>
+        </div>
+        <div class="moto-icon">🛵</div>
+        <div class="dest-icon">📍</div>
+      </div>
+      <div class="map-footer">
+        <span>🏪 Jesu Jiron Store</span>
+        <span>Tu dirección <strong id="map-dist">~2.4 km</strong></span>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="track-title">Estado del pedido</div>
+    <div class="timeline" id="timeline">
+      <!-- generado por JS -->
+    </div>
+
+    <!-- Resumen de productos -->
+    <div class="track-order-items">
+      <h4>🛍️ Productos comprados</h4>
+      <div id="track-items"></div>
+      <div class="toi-total"><span>Total pagado</span><strong id="track-total">S/. 0.00</strong></div>
+    </div>
+
+    <button class="btn-home" onclick="window.location.href='tienda.html'">← Seguir comprando</button>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -398,54 +579,59 @@
   const SUPABASE_KEY = 'sb_publishable_H9z8wXVbH-FGOsfr32IDmA_MODG2eXa';
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // ---- AUTH + CART GUARD ----
+  // ---- GUARDS ----
   const sesion = localStorage.getItem('jesu_sesion');
-  if (!sesion) { window.location.replace('index.html'); }
+  if (!sesion) window.location.replace('index.html');
   const usuario = JSON.parse(sesion || '{}');
-
   const carrito = JSON.parse(sessionStorage.getItem('jesu_carrito') || '[]');
   if (!carrito.length) window.location.replace('tienda.html');
 
-  // Pre-llenar email
-  document.getElementById('c-email').value = usuario.correo || '';
+  // Pre-fill
+  document.getElementById('c-email').value    = usuario.correo || '';
   document.getElementById('c-fullname').value = usuario.nombre || '';
 
-  // ---- RENDER RESUMEN ----
+  // ---- TIPO ENTREGA ----
+  let tipoEntrega = 'delivery';
+  function selectEntrega(tipo) {
+    tipoEntrega = tipo;
+    document.getElementById('opt-delivery').classList.toggle('selected', tipo === 'delivery');
+    document.getElementById('opt-recojo').classList.toggle('selected',  tipo === 'recojo');
+    document.getElementById('opt-delivery').querySelector('.opt-check').style.display = tipo === 'delivery' ? '' : 'none';
+    document.getElementById('opt-recojo').querySelector('.opt-check').style.display   = tipo === 'recojo'  ? '' : 'none';
+    document.getElementById('delivery-fields').classList.toggle('hidden', tipo !== 'delivery');
+    document.getElementById('recojo-fields').classList.toggle('hidden',   tipo !== 'recojo');
+    document.getElementById('envio-label').textContent = tipo === 'delivery' ? 'Delivery' : 'Recojo en tienda';
+    document.getElementById('envio-valor').textContent = 'Gratis 🎁';
+  }
+
+  // ---- RESUMEN ----
   function renderSummary() {
     const total = carrito.reduce((s,i) => s + i.precio * i.qty, 0);
     document.getElementById('s-subtotal').textContent = `S/. ${total.toFixed(2)}`;
-    document.getElementById('s-total').textContent = `S/. ${total.toFixed(2)}`;
-
+    document.getElementById('s-total').textContent    = `S/. ${total.toFixed(2)}`;
     document.getElementById('summary-items').innerHTML = carrito.map(i => `
       <div class="s-item">
         ${i.imagen_url
-          ? `<img class="s-item-img" src="${i.imagen_url}" alt="${i.nombre}"
-               onerror="this.outerHTML='<div class=\\'s-item-img\\'>📦</div>'">`
+          ? `<img class="s-item-img" src="${i.imagen_url}" alt="${i.nombre}" onerror="this.outerHTML='<div class=\\'s-item-img\\'>📦</div>'">`
           : '<div class="s-item-img">📦</div>'}
         <div class="s-item-info">
           <div class="s-item-name">${i.nombre}</div>
-          <div class="s-item-qty">Cantidad: ${i.qty}</div>
+          <div class="s-item-qty">x${i.qty}</div>
         </div>
         <div class="s-item-price">S/. ${(i.precio * i.qty).toFixed(2)}</div>
-      </div>
-    `).join('');
+      </div>`).join('');
   }
 
-  // ---- LIVE CARD PREVIEW ----
+  // ---- TARJETA LIVE ----
   function liveCard() {
-    const nombre = document.getElementById('c-nombre').value || 'TU NOMBRE';
-    const num    = document.getElementById('c-num').value || '•••• •••• •••• ••••';
-    const exp    = document.getElementById('c-exp').value || 'MM/AA';
-    document.getElementById('vis-name').textContent = nombre.toUpperCase().substring(0,24);
-    document.getElementById('vis-num').textContent  = num || '•••• •••• •••• ••••';
-    document.getElementById('vis-exp').textContent  = exp;
+    document.getElementById('vis-name').textContent = (document.getElementById('c-nombre').value || 'TU NOMBRE').toUpperCase().substring(0,24);
+    document.getElementById('vis-num').textContent  = document.getElementById('c-num').value || '•••• •••• •••• ••••';
+    document.getElementById('vis-exp').textContent  = document.getElementById('c-exp').value || 'MM/AA';
   }
-
   function formatNum(input) {
     let v = input.value.replace(/\D/g,'').substring(0,16);
     input.value = v.replace(/(.{4})/g,'$1 ').trim();
   }
-
   function formatExp(input) {
     let v = input.value.replace(/\D/g,'').substring(0,4);
     if (v.length >= 3) v = v.substring(0,2)+'/'+v.substring(2);
@@ -454,79 +640,156 @@
 
   // ---- CONFIRMAR COMPRA ----
   async function confirmPurchase() {
-    const nombre  = document.getElementById('c-nombre').value.trim();
-    const num     = document.getElementById('c-num').value.replace(/\s/g,'');
-    const exp     = document.getElementById('c-exp').value.trim();
-    const cvv     = document.getElementById('c-cvv').value.trim();
-    const email   = document.getElementById('c-email').value.trim();
-    const errEl   = document.getElementById('pay-err');
-    const btn     = document.getElementById('btn-confirm');
+    const nombre = document.getElementById('c-nombre').value.trim();
+    const num    = document.getElementById('c-num').value.replace(/\s/g,'');
+    const exp    = document.getElementById('c-exp').value.trim();
+    const cvv    = document.getElementById('c-cvv').value.trim();
+    const email  = document.getElementById('c-email').value.trim();
+    const errEl  = document.getElementById('pay-err');
+    const btn    = document.getElementById('btn-confirm');
     errEl.textContent = '';
 
-    if (!nombre)          { errEl.textContent = '⚠️ Ingresa el nombre de la tarjeta'; return; }
-    if (num.length < 16)  { errEl.textContent = '⚠️ Número de tarjeta inválido (16 dígitos)'; return; }
-    if (!/^\d{2}\/\d{2}$/.test(exp)) { errEl.textContent = '⚠️ Fecha de vencimiento inválida (MM/AA)'; return; }
-    if (cvv.length < 3)   { errEl.textContent = '⚠️ CVV inválido (3 dígitos)'; return; }
-    if (!email)           { errEl.textContent = '⚠️ Ingresa tu correo de contacto'; return; }
+    if (!nombre)         { errEl.textContent = '⚠️ Ingresa el nombre de la tarjeta'; return; }
+    if (num.length < 16) { errEl.textContent = '⚠️ Número de tarjeta inválido'; return; }
+    if (!/^\d{2}\/\d{2}$/.test(exp)) { errEl.textContent = '⚠️ Vencimiento inválido (MM/AA)'; return; }
+    if (cvv.length < 3)  { errEl.textContent = '⚠️ CVV inválido'; return; }
+    if (!email)          { errEl.textContent = '⚠️ Ingresa tu correo'; return; }
 
-    btn.disabled = true; btn.textContent = 'Procesando pago...';
+    if (tipoEntrega === 'delivery') {
+      const dir = document.getElementById('c-direccion').value.trim();
+      if (!dir) { errEl.textContent = '⚠️ Ingresa tu dirección de entrega'; return; }
+    }
+
+    btn.disabled = true; btn.textContent = 'Procesando...';
 
     const total = carrito.reduce((s,i) => s + i.precio * i.qty, 0);
     const prods = carrito.map(i => ({ id: i.id, nombre: i.nombre, precio: i.precio, cantidad: i.qty, subtotal: i.precio * i.qty }));
+    const direccion = tipoEntrega === 'delivery'
+      ? `${document.getElementById('c-direccion').value} - ${document.getElementById('c-distrito').value}`
+      : 'Recojo en tienda';
 
-    try {
-      const { error } = await sb.from('compras').insert([{
-        usuario_correo: usuario.correo,
-        usuario_nombre: usuario.nombre,
-        productos: prods,
-        total,
-        tarjeta_ultimos4: num.slice(-4),
-        estado: 'completada'
-      }]);
-      if (error) throw error;
+    const { error } = await sb.from('compras').insert([{
+      usuario_correo: usuario.correo,
+      usuario_nombre: usuario.nombre,
+      productos: prods,
+      total,
+      tarjeta_ultimos4: num.slice(-4),
+      estado: tipoEntrega === 'delivery' ? 'en_camino' : 'listo_recojo'
+    }]);
 
-      // Limpiar carrito
-      sessionStorage.removeItem('jesu_carrito');
-
-      // Mostrar éxito con confetti
-      showSuccess();
-
-    } catch(e) {
-      errEl.textContent = '❌ Error al procesar. Intenta de nuevo.';
+    if (error) {
+      errEl.textContent = '❌ ' + error.message;
       btn.disabled = false; btn.textContent = '✅ Confirmar compra';
+      return;
     }
+
+    sessionStorage.removeItem('jesu_carrito');
+    showTracking(total, prods, direccion);
   }
 
-  function showSuccess() {
-    document.getElementById('success-screen').classList.remove('hidden');
-    // Mover breadcrumb al paso 3 (visual feedback)
+  // ---- MOSTRAR RASTREO ----
+  function showTracking(total, prods, direccion) {
+    // Generar número de pedido
+    const orderNum = '#JJ-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('track-order-num').textContent = orderNum;
+
+    if (tipoEntrega === 'delivery') {
+      document.getElementById('track-tipo-badge').textContent    = '🛵 Delivery';
+      document.getElementById('track-icon').textContent          = '🛵';
+      document.getElementById('track-entrega-title').textContent = 'Delivery a domicilio';
+      document.getElementById('track-entrega-sub').textContent   = 'Tiempo estimado: 30–45 min';
+      document.getElementById('track-direccion').textContent     = '📍 ' + direccion;
+      document.getElementById('track-map').classList.remove('hidden');
+    } else {
+      document.getElementById('track-tipo-badge').textContent    = '🏪 Recojo';
+      document.getElementById('track-icon').textContent          = '🏪';
+      document.getElementById('track-entrega-title').textContent = 'Recojo en tienda';
+      document.getElementById('track-entrega-sub').textContent   = 'Jr. Los Andes 245 • Listo en ~15 min';
+      document.getElementById('track-direccion').textContent     = '';
+      document.getElementById('track-map').classList.add('hidden');
+    }
+
+    // Productos
+    document.getElementById('track-total').textContent = `S/. ${total.toFixed(2)}`;
+    document.getElementById('track-items').innerHTML = prods.map(p => `
+      <div class="toi-item">
+        <span class="toi-name">${p.nombre} <span style="color:#bbb;font-weight:600">x${p.cantidad}</span></span>
+        <span class="toi-price">S/. ${p.subtotal.toFixed(2)}</span>
+      </div>`).join('');
+
+    // Timeline con delay simulado
+    renderTimeline();
+
+    // Breadcrumb paso 3
+    document.getElementById('bc3').classList.add('active');
+
+    // Mostrar pantalla
+    document.getElementById('checkout-layout').classList.add('hidden');
+    document.getElementById('tracking-screen').classList.remove('hidden');
+    window.scrollTo(0, 0);
     launchConfetti();
+    // Auto-avanzar pasos
+    autoAdvanceSteps();
   }
 
-  function goHome() {
-    window.location.href = 'tienda.html';
+  // ---- TIMELINE ----
+  const stepsDelivery = [
+    { icon: '✅', title: 'Pago confirmado',         sub: 'Tu pago fue procesado exitosamente',    time: 'Ahora' },
+    { icon: '📦', title: 'Preparando tu pedido',    sub: 'Estamos alistando tus productos',       time: 'En ~5 min' },
+    { icon: '🛵', title: 'Repartidor en camino',    sub: 'Tu pedido salió del local',             time: 'En ~15 min' },
+    { icon: '📍', title: 'Llegando a tu dirección', sub: 'El repartidor está cerca',              time: 'En ~35 min' },
+    { icon: '🎁', title: '¡Entregado!',             sub: '¡Disfruta tu compra!',                  time: 'En ~45 min' },
+  ];
+  const stepsRecojo = [
+    { icon: '✅', title: 'Pago confirmado',     sub: 'Tu pago fue procesado exitosamente', time: 'Ahora' },
+    { icon: '📦', title: 'Preparando pedido',   sub: 'Estamos alistando tus productos',   time: 'En ~5 min' },
+    { icon: '🏪', title: 'Listo para recoger',  sub: 'Pasa por tienda cuando quieras',    time: 'En ~15 min' },
+    { icon: '🎁', title: '¡Pedido entregado!',  sub: '¡Gracias por tu compra!',           time: 'Al recoger' },
+  ];
+
+  let currentStep = 0;
+  function renderTimeline(active = 0) {
+    const steps = tipoEntrega === 'delivery' ? stepsDelivery : stepsRecojo;
+    document.getElementById('timeline').innerHTML = steps.map((s, i) => {
+      const state = i < active ? 'done' : i === active ? 'active' : 'pending';
+      return `<div class="t-step ${state}" id="tstep-${i}">
+        <div class="t-dot">${i < active ? '✓' : s.icon}</div>
+        <div class="t-content">
+          <div class="t-title">${s.title}</div>
+          <div class="t-sub">${s.sub}</div>
+          <div class="t-time">${i <= active ? s.time : s.time}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function autoAdvanceSteps() {
+    currentStep = 0;
+    renderTimeline(0);
+    const steps = tipoEntrega === 'delivery' ? stepsDelivery : stepsRecojo;
+    const delays = tipoEntrega === 'delivery'
+      ? [0, 3000, 7000, 12000, 18000]  // simulado rápido para demo
+      : [0, 3000, 7000, 12000];
+
+    delays.forEach((delay, i) => {
+      setTimeout(() => {
+        renderTimeline(i);
+      }, delay);
+    });
   }
 
   // ---- CONFETTI ----
   function launchConfetti() {
-    const colors = ['#E63946','#FFD60A','#22c55e','#F4F1E8','#0ea5e9','#a855f7'];
-    for (let i = 0; i < 100; i++) {
+    const colors = ['#E63946','#FFD60A','#22c55e','#F4F1E8','#3b82f6','#a855f7'];
+    for (let i = 0; i < 80; i++) {
       const el = document.createElement('div');
       el.className = 'confetti-piece';
-      el.style.left = Math.random()*100+'vw';
-      el.style.top = '-10px';
-      el.style.background = colors[Math.floor(Math.random()*colors.length)];
-      el.style.width = (Math.random()*10+5)+'px';
-      el.style.height = (Math.random()*10+5)+'px';
-      el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
-      el.style.animationDuration = (Math.random()*2+1.5)+'s';
-      el.style.animationDelay = (Math.random()*1)+'s';
+      el.style.cssText = `left:${Math.random()*100}vw;top:-10px;width:${Math.random()*10+5}px;height:${Math.random()*10+5}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${Math.random()*2+1.5}s;animation-delay:${Math.random()*1}s`;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 3500);
     }
   }
 
-  // INIT
   renderSummary();
 </script>
 </body>
