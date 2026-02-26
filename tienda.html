@@ -292,10 +292,10 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="nav-brand">🛍️ JESU <span class="red">JIRON</span></div>
+  <div class="nav-brand" ondblclick="askAdmin()" title="" style="cursor:default">🛍️ JESU <span class="red">JIRON</span></div>
   <div class="nav-right">
     <div class="nav-user">Hola, <strong id="user-name">...</strong></div>
-    <button class="btn-admin-nav" onclick="toggleAdmin()">⚙️ Admin</button>
+    <!-- Admin oculto: doble clic en el logo para abrir -->
     <button class="btn-cart-main" onclick="toggleCart()">
       🛒 Carrito <span class="badge" id="cart-count">0</span>
     </button>
@@ -509,6 +509,14 @@
   }
 
   // ---- ADMIN ----
+  function askAdmin() {
+    const clave = prompt('Contraseña admin:');
+    if (clave === 'jesu2025') {
+      document.getElementById('admin-panel').classList.toggle('hidden');
+    } else if (clave !== null) {
+      alert('Contraseña incorrecta');
+    }
+  }
   function toggleAdmin() {
     document.getElementById('admin-panel').classList.toggle('hidden');
   }
