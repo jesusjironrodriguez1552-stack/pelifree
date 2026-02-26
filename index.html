@@ -228,9 +228,14 @@
     if (!email || !pass) { errEl.textContent = '⚠️ Completa todos los campos'; return; }
     btn.disabled = true; btn.textContent = 'Entrando...';
     try {
+      // maybeSingle() devuelve null si no encuentra, sin lanzar error
       const { data, error } = await sb.from('usuarios')
-        .select('*').eq('correo', email).eq('contrasena', pass).single();
-      if (error || !data) {
+        .select('*').eq('correo', email).eq('contrasena', pass).maybeSingle();
+      if (error) {
+        // Error real de conexión o de Supabase
+        errEl.textContent = '❌ Error de conexión. Revisa config.js';
+      } else if (!data) {
+        // No se encontró el usuario — credenciales incorrectas
         errEl.textContent = '❌ Correo o contraseña incorrectos';
       } else {
         localStorage.setItem('jesu_sesion', JSON.stringify(data));
@@ -239,6 +244,7 @@
       }
     } catch(e) {
       errEl.textContent = '❌ Error de conexión. Revisa config.js';
+      console.error(e);
     }
     btn.disabled = false; btn.textContent = 'Entrar a la tienda →';
   }
@@ -253,19 +259,44 @@
     if (!nombre || !email || !pass) { errEl.textContent = '⚠️ Completa todos los campos'; return; }
     if (pass.length < 6) { errEl.textContent = '⚠️ Contraseña mínimo 6 caracteres'; return; }
     btn.disabled = true; btn.textContent = 'Creando cuenta...';
-    try {
-      const { data: existe } = await sb.from('usuarios').select('id').eq('correo', email).maybeSingle();
-      if (existe) { errEl.textContent = '⚠️ Ese correo ya está registrado'; btn.disabled=false; btn.textContent='Crear mi cuenta 🎉'; return; }
-      const { data, error } = await sb.from('usuarios')
-        .insert([{ nombre, correo: email, contrasena: pass }]).select().single();
-      if (error) throw error;
-      localStorage.setItem('jesu_sesion', JSON.stringify(data));
-      window.location.href = 'tienda.html';
+
+    // Paso 1: verificar si ya existe
+    const { data: existe, error: errExiste } = await sb
+      .from('usuarios').select('id').eq('correo', email).maybeSingle();
+
+    if (errExiste) {
+      errEl.textContent = '❌ Error de conexión: ' + errExiste.message;
+      btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+      console.error('Error verificando usuario:', errExiste);
       return;
-    } catch(e) {
-      errEl.textContent = '❌ Error al registrar. Intenta de nuevo.';
     }
-    btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+    if (existe) {
+      errEl.textContent = '⚠️ Ese correo ya está registrado';
+      btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+      return;
+    }
+
+    // Paso 2: insertar usuario
+    const { data, error: errInsert } = await sb
+      .from('usuarios')
+      .insert([{ nombre, correo: email, contrasena: pass }])
+      .select()
+      .maybeSingle();
+
+    if (errInsert) {
+      errEl.textContent = '❌ ' + errInsert.message;
+      btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+      console.error('Error insertando usuario:', errInsert);
+      return;
+    }
+    if (!data) {
+      errEl.textContent = '❌ No se creó la cuenta. Revisa las políticas RLS en Supabase.';
+      btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+      return;
+    }
+
+    localStorage.setItem('jesu_sesion', JSON.stringify(data));
+    window.location.href = 'tienda.html';
   }
 </script>
 </body>
