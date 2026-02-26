@@ -1,800 +1,272 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Películas</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #fff;
-            font-size: 32px;
-        }
-        
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-        
-        .movie-item {
-            background-color: #2d2d2d;
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid #444;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .movie-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .movie-image-container {
-            width: 100%;
-            height: 300px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            position: relative;
-            background-color: #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .movie-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .movie-image:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-        }
-        
-        .image-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #444, #666);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: #ccc;
-            font-size: 24px;
-        }
-        
-        .image-placeholder.hidden {
-            display: none;
-        }
-        
-        .movie-title {
-            color: #fff;
-            font-size: 20px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .movie-synopsis {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 8px;
-            line-height: 1.5;
-            text-align: justify;
-            font-size: 14px;
-            margin-bottom: 20px;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-        
-        .movie-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .movie-year {
-            background-color: #444;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #ccc;
-        }
-        
-        .movie-genre {
-            background-color: #555;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #fff;
-        }
-        
-        .watch-button {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .watch-button:hover {
-            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
-        }
-        
-        .play-icon {
-            margin-right: 8px;
-            font-size: 18px;
-        }
-        
-        .loading-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border: 4px solid #666;
-            border-top: 4px solid #ff6b6b;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jesu Jiron — Entrar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro: #0d0d0d;
+      --rojo: #E63946;
+      --crema: #F4F1E8;
+      --amarillo: #FFD60A;
+    }
+    html, body { height: 100%; font-family: 'Syne', sans-serif; background: var(--negro); }
 
-        /* Estilos para publicidad */
-        .ad-container {
-            margin: 25px 0;
-            text-align: center;
-            padding: 20px;
-            background-color: #2d2d2d;
-            border-radius: 10px;
-            border: 1px solid #444;
-            min-height: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    /* FONDO */
+    .bg { position: fixed; inset: 0; background: var(--negro); overflow: hidden; z-index: 0; }
+    .bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(230,57,70,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(230,57,70,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gp 4s ease-in-out infinite alternate;
+    }
+    @keyframes gp { from{opacity:.3} to{opacity:.9} }
+    .bg-c {
+      position: absolute; border-radius: 50%; filter: blur(110px);
+      animation: drift 9s ease-in-out infinite alternate;
+    }
+    .bc1 { width:600px;height:600px;background:rgba(230,57,70,.18);top:-200px;right:-150px; }
+    .bc2 { width:400px;height:400px;background:rgba(255,214,10,.1);bottom:-80px;left:-80px;animation-delay:4s; }
+    @keyframes drift { from{transform:translate(0,0)scale(1)} to{transform:translate(35px,25px)scale(1.08)} }
 
-        .ad-label {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    /* LAYOUT */
+    .container {
+      position: relative; z-index: 10;
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh;
+    }
 
-        .ad-top {
-            margin: 20px 0 30px 0;
-        }
+    /* IZQUIERDA */
+    .left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 64px 60px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(230,57,70,.12); border: 1px solid rgba(230,57,70,.35);
+      color: var(--rojo); padding: 6px 14px; border-radius: 4px;
+      font-size: .72rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 32px; width: fit-content;
+    }
+    .dot { width:7px;height:7px;border-radius:50%;background:var(--rojo);animation:blink 1.4s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.1} }
+    .big-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 8.5vw, 10rem);
+      line-height: .88; color: var(--crema); letter-spacing: 2px;
+    }
+    .big-title .outline {
+      -webkit-text-stroke: 2px var(--rojo);
+      color: transparent; display: block;
+    }
+    .tagline {
+      margin-top: 28px; color: rgba(255,255,255,.38);
+      font-size: .97rem; line-height: 1.75; max-width: 360px;
+    }
+    .tagline strong { color: var(--amarillo); font-weight: 800; }
+    .left-footer { margin-top: auto; color: rgba(255,255,255,.15); font-size: .75rem; letter-spacing: 1px; }
 
-        .ad-middle {
-            margin: 35px 0;
-        }
+    /* DERECHA */
+    .right {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 64px 56px; overflow-y: auto;
+    }
+    .form-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem; color: var(--crema); letter-spacing: 2px;
+    }
+    .form-sub { color: rgba(255,255,255,.3); font-size: .88rem; margin-top: 4px; margin-bottom: 36px; }
 
-        .ad-between {
-            margin: 30px 0;
-        }
+    .tabs {
+      display: flex; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 32px;
+    }
+    .tab {
+      padding: 10px 0; margin-right: 32px; background: none; border: none;
+      color: rgba(255,255,255,.25); font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: .88rem; cursor: pointer;
+      position: relative; letter-spacing: 1px; transition: color .2s;
+    }
+    .tab::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 2px; background: var(--rojo);
+      transform: scaleX(0); transition: transform .25s;
+    }
+    .tab.active { color: var(--crema); }
+    .tab.active::after { transform: scaleX(1); }
 
-        .ad-bottom {
-            margin: 30px 0 20px 0;
-        }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block; font-size: .72rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,.35); margin-bottom: 8px;
+    }
+    .field input {
+      width: 100%; background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
+      padding: 13px 16px; color: var(--crema);
+      font-family: 'Syne', sans-serif; font-size: .95rem;
+      transition: border-color .2s, background .2s;
+    }
+    .field input:focus { outline: none; border-color: var(--rojo); background: rgba(230,57,70,.07); }
+    .field input::placeholder { color: rgba(255,255,255,.12); }
 
-        /* Banner superior */
-        .top-banner {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: #fff;
-            text-align: center;
-            padding: 18px;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
+    .btn-go {
+      width: 100%; padding: 15px; background: var(--rojo); border: none;
+      border-radius: 6px; color: #fff; font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: .98rem; letter-spacing: 1px;
+      cursor: pointer; margin-top: 6px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(230,57,70,.3);
+    }
+    .btn-go:hover { background: #c1121f; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(230,57,70,.45); }
+    .btn-go:active { transform: translateY(0); }
+    .btn-go:disabled { opacity: .6; pointer-events: none; }
 
-        /* Grid para películas con separadores publicitarios */
-        .content-section {
-            margin-bottom: 40px;
-        }
-        
-        /* Estilos para navegación */
-        .navigation {
-            text-align: center;
-            margin: 50px 0 30px 0;
-        }
-        
-        .nav-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-            border: 2px solid transparent;
-        }
-        
-        .nav-button:hover {
-            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .nav-button:active {
-            transform: translateY(0);
-        }
-        
-        .nav-icon {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-        
-        /* Indicador de página */
-        .page-indicator {
-            text-align: center;
-            margin: 30px 0;
-            color: #ccc;
-            font-size: 16px;
-        }
-        
-        .current-page {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            font-weight: bold;
-            display: inline-block;
-            margin: 0 10px;
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .movies-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            
-            .movie-image-container {
-                height: 280px;
-            }
-            
-            .movie-item {
-                padding: 18px;
-            }
-            
-            h1 {
-                font-size: 26px;
-                margin-bottom: 25px;
-            }
-            
-            .movie-info {
-                justify-content: center;
-            }
+    .err { color: #ff7070; font-size: .82rem; margin-top: 10px; min-height: 18px; font-weight: 600; }
+    .hidden { display: none !important; }
 
-            .ad-container {
-                padding: 18px;
-                margin: 20px 0;
-                min-height: 120px;
-            }
-
-            .ad-between {
-                margin: 25px 0;
-            }
-
-            .top-banner {
-                font-size: 16px;
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-
-            /* Hacer los banners más visibles en móvil */
-            .ad-container {
-                background: linear-gradient(135deg, #2d2d2d, #3d3d3d);
-                border: 2px solid #555;
-            }
-            
-            .nav-button {
-                padding: 12px 25px;
-                font-size: 16px;
-            }
-            
-            .navigation {
-                margin: 40px 0 25px 0;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            .movie-image-container {
-                height: 250px;
-            }
-            
-            .movie-synopsis {
-                padding: 12px;
-                font-size: 13px;
-                max-height: 120px;
-            }
-            
-            .watch-button {
-                padding: 12px 18px;
-                font-size: 15px;
-            }
-
-            .top-banner {
-                font-size: 15px;
-                padding: 12px;
-            }
-
-            .ad-container {
-                margin: 18px 0;
-                padding: 15px;
-                min-height: 100px;
-            }
-
-            .movies-grid {
-                gap: 20px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-            
-            .nav-button {
-                padding: 10px 20px;
-                font-size: 15px;
-            }
-            
-            .page-indicator {
-                font-size: 14px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      .left { display: none; }
+      .right { padding: 40px 24px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Banner superior principal -->
-        <div class="top-banner">
-            🎬 PELÍCULAS GRATIS EN HD - 🎬
-        </div>
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="bg-c bc1"></div>
+  <div class="bg-c bc2"></div>
+</div>
 
-        <!-- Indicador de página actual -->
-        <div class="page-indicator">
-            Estás viendo: <span class="current-page">Página 1</span>
-        </div>
+<div class="container">
+  <div class="left">
+    <div class="tag"><div class="dot"></div> Tienda online</div>
+    <h1 class="big-title">
+      JESU
+      <span class="outline">JIRON</span>
+    </h1>
+    <p class="tagline">
+      Los mejores productos, sin vueltas.<br/>
+      <strong>Calidad real, precios honestos.</strong><br/>
+      Hecho con amor desde cero 🔥
+    </p>
+    <div class="left-footer">© 2025 JESU JIRON • HECHO POR JESÚ</div>
+  </div>
 
-        <!-- Primer banner publicitario -->
-        <div class="ad-container ad-top">
-            <div class="ad-label">Publicidad Patrocinada</div>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : '9d6766e46c7b34676b45346acec44be2',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/9d6766e46c7b34676b45346acec44be2/invoke.js"></script>
-        </div>
+  <div class="right">
+    <div class="form-title">Bienvenido/a</div>
+    <div class="form-sub">Entra a tu cuenta o regístrate gratis</div>
 
-        <h1>🎬 Catálogo de Películas Premium</h1>
-        
-        <!-- SECCIÓN 1: Primeras 2 películas -->
-        <div class="content-section">
-            <div class="movies-grid">
-                <!-- PELÍCULA 1 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://m.media-amazon.com/images/I/41Tk9wptUwL._SY445_SX342_.jpg" 
-                             alt="Poster It Eso" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">It Eso</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2017</span>
-                        <span class="movie-genre">Terror</span>
-                    </div>
-                    <div class="movie-synopsis">
-                        En el verano de 1989, un grupo de niños maltratados se unieron para destruir a un monstruo cambia-formas, que se disfraza de payaso y se aprovecha de los niños de Derry, su pequeño pueblo de Maine.
-                    </div>
-                    <a href="https://pixeldrain.com/u/Q8KRdN3t" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-
-                <!-- PELÍCULA 2 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FfDqXzBcav7SmEZxFPACaFNsTbYV.jpg&w=640&q=75" 
-                             alt="Poster Amenaza a la Casa Blanca" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Amenaza a la Casa Blanca</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2023</span>
-                        <span class="movie-genre">Acción</span>
-                    </div>
-                    <div class="movie-synopsis">
-                        Después de que un terremoto sacuda D.C., el Army Corp corre contrarreloj para rescatar al presidente atrapado bajo los escombros mientras un siniestro complot tiene como objetivo capitalizar el desastre.
-                        <br><strong>Actores:</strong> Jack Pearson, Sean Young, Kayla Fields, Terry Woodberry, Eric Roberts
-                    </div>
-                    <a href="https://pixeldrain.com/u/9sUvssSH" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner publicitario entre películas -->
-        <div class="ad-container ad-between">
-            <div class="ad-label">Publicidad Patrocinada</div>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
-                    'format' : 'iframe',
-                    'height' : 60,
-                    'width' : 468,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
-        </div>
-
-        <!-- SECCIÓN 2: Siguientes 2 películas -->
-        <div class="content-section">
-            <div class="movies-grid">
-                <!-- PELÍCULA 3 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fh8DNi9XJKUS2nOzU5qEFEg7R0N6.jpg&w=640&q=75" 
-                             alt="Poster Rescate impactante" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Rescate impactante</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2024</span>
-                        <span class="movie-genre">Acción</span>
-                    </div>
-                    <div class="movie-synopsis">
-                       Un veterano experto en Muay Thai se embarca en una misión de venganza sin prisioneros luego de que su esposa y su hija son brutalmente asesinadas por fuerzas misteriosas.
-                      <br><strong>Actores:</strong> Tony Jaa, 洪浚嘉, 释行宇, 姜皓文, 陈朵怡
-                    </div>
-                    <a href="https://pixeldrain.com/u/9sUvssSH" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-
-                <!-- PELÍCULA 4 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fb0AQYSM09AYVRKLZr6jIAP2xNq9.jpg&w=640&q=75" 
-                             alt="Poster Del cielo al infierno" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Del cielo al infierno</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2025</span>
-                        <span class="movie-genre">Suspenso</span>
-                    </div>
-                    <div class="movie-synopsis">
-                      Cuando un poderoso productor musical es víctima de una extorsión, debe luchar por su familia y su legado mientras enfrenta un dilema moral de vida o muerte.
-                      <br><strong>Actores:</strong> Denzel Washington, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright
-                    </div>
-                    <a href="https://pixeldrain.com/u/9fQd4ApV" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Native Ad grande en el medio -->
-        <div class="ad-container ad-middle">
-            <div class="ad-label">Contenido Patrocinado</div>
-            <script async="async" data-cfasync="false" src="//pl27617152.revenuecpmgate.com/557064b3e7068646f1d1e93ff3e1bd7d/invoke.js"></script>
-            <div id="container-557064b3e7068646f1d1e93ff3e1bd7d"></div>
-        </div>
-
-        <!-- SECCIÓN 3: Siguientes 2 películas -->
-        <div class="content-section">
-            <div class="movies-grid">
-                <!-- PELÍCULA 5 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F7BSJhvwvrhifE8DyA5cuXgLRYLx.jpg&w=640&q=75" 
-                             alt="Poster Winnie Pooh: Miel y Sangre 2" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Winnie Pooh: Miel y Sangre 2</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2024</span>
-                        <span class="movie-genre">Terror</span>
-                    </div>
-                    <div class="movie-synopsis">
-                       Viviendo en la sombra, el grupo decide llevar la lucha al pueblo de Ashdown, hogar de Christopher Robin, dejando un sangriento rastro de muerte y caos a su paso.
-                       <br><strong>Actores:</strong> Scott Chambers, Tallulah Evans, Ryan Oliva, Lewis Santer
-                    </div>
-                    <a href="https://pixeldrain.com/u/Dutn5pEz" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-
-                <!-- PELÍCULA 6 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2F5Wb1sOZvFulzzJE5JDWCnFSCvJ5.jpg&w=640&q=75" 
-                             alt="Poster Riesgo bajo cero: Venganza" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Riesgo bajo cero: Venganza</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2024</span>
-                        <span class="movie-genre">Acción</span>
-                    </div>
-                    <div class="movie-synopsis">
-                       Mike viaja a Nepal para esparcir las cenizas de su hermano en el Everest. Cuando Mike y su guía se topan con mercenarios mientras viajan en un autobús se ven obligados a luchar para salvarse.
-                       <br><strong>Actores:</strong> Liam Neeson, 范冰冰, Marcus Thomas, Grace O'Sullivan
-                    </div>
-                    <a href="https://pixeldrain.com/u/KaFXupmE" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner publicitario entre películas -->
-        <div class="ad-container ad-between">
-            <div class="ad-label">Publicidad Patrocinada</div>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : '9d6766e46c7b34676b45346acec44be2',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/9d6766e46c7b34676b45346acec44be2/invoke.js"></script>
-        </div>
-
-        <!-- SECCIÓN 4: Últimas 2 películas -->
-        <div class="content-section">
-            <div class="movies-grid">
-                <!-- PELÍCULA 7 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2Fk7jZM6Ti1AfoEzHoegRXjtWHyWy.jpg&w=640&q=75" 
-                             alt="Poster Superman" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Superman</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2025</span>
-                        <span class="movie-genre">Ciencia ficción</span>
-                    </div>
-                    <div class="movie-synopsis">
-                       Mientras el mundo pierde la fe en la bondad, Clark Kent, un periodista en Metrópolis, se embarca en un viaje para reconciliar su herencia kryptoniana con su educación humana como Superman.
-                       <br><strong>Actores:</strong> David Corenswet, Rachel Brosnahan, Nicholas Hoult, Edi Gathegi
-                    </div>
-                    <a href="https://pixeldrain.com/u/8K6zZdCg" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-
-                <!-- PELÍCULA 8 -->
-                <div class="movie-item">
-                    <div class="movie-image-container">
-                        <div class="loading-spinner"></div>
-                        <div class="image-placeholder">
-                            <div>🎬</div>
-                            <div style="font-size: 14px; margin-top: 10px;">Cargando imagen...</div>
-                        </div>
-                        <img data-src="https://www.cuevana.is/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Foriginal%2FkK0ZgJINxy50AkVbCsTRIX0DvbZ.jpg&w=640&q=75" 
-                             alt="Poster Get Fast" 
-                             class="movie-image"
-                             style="display: none;">
-                    </div>
-                    <h2 class="movie-title">Get Fast</h2>
-                    <div class="movie-info">
-                        <span class="movie-year">2024</span>
-                        <span class="movie-genre">Acción</span>
-                    </div>
-                    <div class="movie-synopsis">
-                        Cuando secuestran a su compañero después de un robo masivo, un famoso ladrón profesional sigue la pista de los secuestradores hasta el territorio de un despiadado capo de la droga.
-                        <br><strong>Género:</strong> Acción, Crimen, Suspenso
-                    </div>
-                    <a href="https://pixeldrain.com/u/mKJmmRBv" 
-                       class="watch-button" 
-                       target="_blank">
-                        <span class="play-icon">▶️</span>Ver Película
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Navegación a la siguiente página -->
-        <div class="navigation">
-            <a href="pagina2.html" class="nav-button">
-                <span class="nav-icon">🎬</span>Ver más películas
-            </a>
-        </div>
-        
-        <!-- Banner inferior grande -->
-        <div class="ad-container ad-bottom">
-            <div class="ad-label">Publicidad Patrocinada</div>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'f982ee6ba95272eb27b7d10db16f8eea',
-                    'format' : 'iframe',
-                    'height' : 100,
-                    'width' : 728,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/f982ee6ba95272eb27b7d10db16f8eea/invoke.js"></script>
-        </div>
-
-        <!-- Banner final llamativo -->
-        <div class="top-banner">
-            🎬 DISFRUTA MÁS PELÍCULAS GRATIS -  🎬
-        </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login',this)">Entrar</button>
+      <button class="tab" onclick="switchTab('register',this)">Registrarme</button>
     </div>
 
-    <script>
-        function loadImage(img, placeholder, spinner) {
-            const src = img.getAttribute('data-src');
-            if (!src) return;
-            
-            const testImg = new Image();
-            
-            testImg.onload = function() {
-                img.src = src;
-                img.style.display = 'block';
-                if (placeholder) placeholder.classList.add('hidden');
-                if (spinner) spinner.style.display = 'none';
-            };
-            
-            testImg.onerror = function() {
-                if (spinner) spinner.style.display = 'none';
-                if (placeholder) {
-                    placeholder.innerHTML = `
-                        <div style="font-size: 24px;">🖼️</div>
-                        <div style="font-size: 12px; margin-top: 10px; text-align: center;">
-                            Error al cargar imagen<br>
-                            <span style="font-size: 10px; color: #888;">
-                                Formato no compatible o URL inválida
-                            </span>
-                        </div>
-                    `;
-                }
-            };
-            
-            testImg.src = src;
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const movieItems = document.querySelectorAll('.movie-item');
-            
-            movieItems.forEach(item => {
-                const img = item.querySelector('.movie-image');
-                const placeholder = item.querySelector('.image-placeholder');
-                const spinner = item.querySelector('.loading-spinner');
-                
-                if (img && img.getAttribute('data-src')) {
-                    loadImage(img, placeholder, spinner);
-                } else {
-                    if (spinner) spinner.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    <!-- LOGIN -->
+    <div id="form-login">
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="l-email" placeholder="tucorreo@gmail.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')loginUser()"/>
+      </div>
+      <button class="btn-go" id="btn-l" onclick="loginUser()">Entrar a la tienda →</button>
+      <div class="err" id="l-err"></div>
+    </div>
+
+    <!-- REGISTRO -->
+    <div id="form-register" class="hidden">
+      <div class="field">
+        <label>Tu nombre</label>
+        <input type="text" id="r-nombre" placeholder="¿Cómo te llamas?"/>
+      </div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="r-email" placeholder="tucorreo@gmail.com"/>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="r-pass" placeholder="Mínimo 6 caracteres"
+               onkeydown="if(event.key==='Enter')registerUser()"/>
+      </div>
+      <button class="btn-go" id="btn-r" onclick="registerUser()">Crear mi cuenta 🎉</button>
+      <div class="err" id="r-err"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Si ya hay sesión activa → ir directo a la tienda
+  if (localStorage.getItem('jesu_sesion')) window.location.replace('tienda.html');
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
+    document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
+  }
+
+  async function loginUser() {
+    const email = document.getElementById('l-email').value.trim();
+    const pass  = document.getElementById('l-pass').value;
+    const errEl = document.getElementById('l-err');
+    const btn   = document.getElementById('btn-l');
+    errEl.textContent = '';
+    if (!email || !pass) { errEl.textContent = '⚠️ Completa todos los campos'; return; }
+    btn.disabled = true; btn.textContent = 'Entrando...';
+    try {
+      const { data, error } = await sb.from('usuarios')
+        .select('*').eq('correo', email).eq('contrasena', pass).single();
+      if (error || !data) {
+        errEl.textContent = '❌ Correo o contraseña incorrectos';
+      } else {
+        localStorage.setItem('jesu_sesion', JSON.stringify(data));
+        window.location.href = 'tienda.html';
+        return;
+      }
+    } catch(e) {
+      errEl.textContent = '❌ Error de conexión. Revisa config.js';
+    }
+    btn.disabled = false; btn.textContent = 'Entrar a la tienda →';
+  }
+
+  async function registerUser() {
+    const nombre = document.getElementById('r-nombre').value.trim();
+    const email  = document.getElementById('r-email').value.trim();
+    const pass   = document.getElementById('r-pass').value;
+    const errEl  = document.getElementById('r-err');
+    const btn    = document.getElementById('btn-r');
+    errEl.textContent = '';
+    if (!nombre || !email || !pass) { errEl.textContent = '⚠️ Completa todos los campos'; return; }
+    if (pass.length < 6) { errEl.textContent = '⚠️ Contraseña mínimo 6 caracteres'; return; }
+    btn.disabled = true; btn.textContent = 'Creando cuenta...';
+    try {
+      const { data: existe } = await sb.from('usuarios').select('id').eq('correo', email).maybeSingle();
+      if (existe) { errEl.textContent = '⚠️ Ese correo ya está registrado'; btn.disabled=false; btn.textContent='Crear mi cuenta 🎉'; return; }
+      const { data, error } = await sb.from('usuarios')
+        .insert([{ nombre, correo: email, contrasena: pass }]).select().single();
+      if (error) throw error;
+      localStorage.setItem('jesu_sesion', JSON.stringify(data));
+      window.location.href = 'tienda.html';
+      return;
+    } catch(e) {
+      errEl.textContent = '❌ Error al registrar. Intenta de nuevo.';
+    }
+    btn.disabled = false; btn.textContent = 'Crear mi cuenta 🎉';
+  }
+</script>
 </body>
 </html>
