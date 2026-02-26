@@ -205,8 +205,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
 <script>
+  const SUPABASE_URL = 'https://ibwldcwxnltvjfzzucqt.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_H9z8wXVbH-FGOsfr32IDmA_MODG2eXa';
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   // Si ya hay sesión activa → ir directo a la tienda
