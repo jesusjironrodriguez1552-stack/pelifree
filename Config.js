@@ -1,2 +1,2 @@
-const SUPABASE_URL = 'https://TU_PROJECT_URL.supabase.co';
-const SUPABASE_KEY = 'TU_ANON_KEY_AQUI';
+const SUPABASE_URL = 'https://ibwldcwxnltvjfzzucqt.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlid2xkY3d4bmx0dmpmenp1Y3F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDI1ODksImV4cCI6MjA4NzcxODU4OX0.zXVjW4dc7tafvJ4igxkvgwXLPIcr19dDfjxJhvb9LKc';
